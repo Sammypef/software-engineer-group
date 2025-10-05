@@ -1,0 +1,1 @@
+Hello, I am Peppy writing this. If you see this file in your VS Code, then everything you did is set up correctly!
