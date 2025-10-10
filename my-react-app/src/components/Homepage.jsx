@@ -11,7 +11,7 @@ const Homepage = () => {
     homepageContainer: {
       minHeight: '100vh',
       width: '100vw',
-      background: 'linear-gradient(135deg, #1e1b4b 0%, #581c87 50%, #1e1b4b 100%)',
+      background: 'linear-gradient(135deg, #6f0097ff 0%, #ba378dff 50%, #b4ae63ff 100%)',
       display: 'flex',
       flexDirection: 'column',
       overflowX: 'hidden',
@@ -101,7 +101,7 @@ const Homepage = () => {
       lineHeight: '1.5'
     },
     userWelcome: {
-      color: '#a78bfa',
+      color: '#fbcdffff',
       fontSize: 'clamp(14px, 3vw, 16px)',
       marginBottom: '8px'
     }
