@@ -2,4 +2,6 @@ If anyone encounter the problem of the "lucide" thingy
 
 insert this into bash
 
+cd my-react-app
+
 npm install lucide-react
