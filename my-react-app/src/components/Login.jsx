@@ -119,7 +119,7 @@ const Login = () => {
       alignItems: 'center',
       justifyContent: 'center',
       padding: 'clamp(0.5rem, 3vw, 1.5rem)',
-      background: 'linear-gradient(135deg, #1e1b4b 0%, #581c87 50%, #1e1b4b 100%)',
+      background: 'linear-gradient(135deg, #6f0097ff 0%, #ba378dff 50%, #b4ae63ff 100%)',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       overflow: 'hidden',
       boxSizing: 'border-box',
@@ -155,7 +155,7 @@ const Login = () => {
       flexShrink: 0
     },
     logo: {
-      background: 'linear-gradient(135deg, #a78bfa 0%, #ec4899 100%)',
+      background: 'linear-gradient(135deg, #9f17d0ff 0%, #de3ba5ff 100%)',
       padding: 'clamp(12px, 3vw, 16px)',
       borderRadius: 'clamp(10px, 2.5vw, 14px)',
       boxShadow: '0 10px 30px rgba(167, 139, 250, 0.3)',
@@ -208,7 +208,7 @@ const Login = () => {
       flexShrink: 0
     },
     primaryButton: {
-      background: 'linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%)',
+      background: 'linear-gradient(135deg, #9f17d0ff 0%, #de3ba5ff 100%)',
       color: 'white',
       boxShadow: '0 4px 15px rgba(139, 92, 246, 0.4)'
     },
@@ -366,7 +366,7 @@ const Login = () => {
       </div>
       
       <h1 style={styles.title}>LyricLingo</h1>
-      <p style={styles.subtitle}>Learn languages through music</p>
+      <p style={styles.subtitle}>Learninf new languages through music!</p>
 
       <button
         style={{...styles.button, ...styles.primaryButton}}
