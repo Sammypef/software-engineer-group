@@ -4,6 +4,8 @@ import session from 'express-session';
 import passport from 'passport';
 import cors from 'cors';
 import './src/auth.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 
 const app = express();
