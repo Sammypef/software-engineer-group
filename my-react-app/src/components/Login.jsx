@@ -17,7 +17,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const lyricIconUrl = "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/lyricicon.png";
+  const lyricIconUrl = "https://raw.githubusercontent.com/Sammypef/software-engineer-group/peen-atempt/lyricicon.png";
 
   const from = location.state?.from?.pathname || '/home';
 
@@ -366,7 +366,7 @@ const Login = () => {
       </div>
       
       <h1 style={styles.title}>LyricLingo</h1>
-      <p style={styles.subtitle}>Learninf new languages through music!</p>
+      <p style={styles.subtitle}>Learning new languages through music!</p>
 
       <button
         style={{...styles.button, ...styles.primaryButton}}

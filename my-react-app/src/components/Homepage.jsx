@@ -5,7 +5,7 @@ import { Home, Book, Headphones, User, LogOut } from 'lucide-react';
 const Homepage = () => {
   const { currentUser, logout } = useAuth();
 
-  const lyricIconUrl = "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/lyricicon.png";
+  const lyricIconUrl = "https://raw.githubusercontent.com/Sammypef/software-engineer-group/peen-atempt/lyricicon.png";
 
   const styles = {
     homepageContainer: {
