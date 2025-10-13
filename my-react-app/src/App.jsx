@@ -5,6 +5,7 @@ import { AuthProvider } from './contexts/AuthContext.jsx';
 import Login from './components/Login.jsx';
 import Homepage from './components/Homepage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import Progression from './components/Profile.jsx';
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
+          
+          {/* Homepage */}
           <Route 
             path="/home" 
             element={
@@ -20,6 +23,18 @@ function App() {
               </ProtectedRoute>
             } 
           />
+
+          {/*New Progression Page */}
+          <Route 
+            path="/progression" 
+            element={
+              <ProtectedRoute>
+                <Progression />
+              </ProtectedRoute>
+            } 
+          />
+
+          {/* Default redirect */}
           <Route path="/" element={<Navigate to="/home" replace />} />
         </Routes>
       </Router>
