@@ -1,9 +1,11 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Home, Book, Headphones, User, LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Homepage = () => {
   const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
 
   const lyricIconUrl = "https://raw.githubusercontent.com/Sammypef/software-engineer-group/peen-atempt/lyricicon.png";
 
@@ -153,13 +155,14 @@ const Homepage = () => {
             <span>Music</span>
           </button>
           <button 
-            style={styles.navButton}
-            className="nav-button"
-            onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
-            onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-          >
-            <User size={18} />
-            <span>Profile</span>
+          style={styles.navButton}
+          className="nav-button"
+          onClick={() => navigate('/progression')} // 👈 this line makes it work
+          onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+          onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+>
+          <User size={18} />
+          <span>Profile</span>
           </button>
           <button 
             style={styles.navButton}
