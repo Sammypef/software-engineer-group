@@ -3,8 +3,9 @@ import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import cors from 'cors';
-import './src/auth.js';
+import '../src/auth.js';
 import dotenv from 'dotenv';
+import {Test_Query, Validate_mail} from '../my-react-app/server/test.js';
 dotenv.config();
 
 
@@ -57,5 +58,9 @@ app.get('/logout', (req, res, next) => {
     });
   });
 });
+
+app.post('/Verify', Validate_mail); // Validate email
+
+app.post('/register', Register); // Register user
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
