@@ -15,6 +15,8 @@ npm i --save express express-session passport passport-google-oauth2
 npm start
 npm run start
 nodemon index.js
+npm install pg
+npm install @supabase/supabase-js
  
 
 open new terminal
@@ -24,4 +26,5 @@ cd my-react-app
 for hosting a web to look
  |
  V
-npm run dev 
+npm run dev
+

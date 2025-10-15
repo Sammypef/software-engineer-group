@@ -85,7 +85,7 @@ app.get('/google/callback',
     // ส่งกลับ frontend
     const userData = encodeURIComponent(JSON.stringify(user));
     //Redirected to frontend with user data
-    res.redirect(`http://localhost:5173/login?user=${userData}`);
+    res.status(200).redirect(`http://localhost:5173/login?user=${userData}`);
   }
 );
 
