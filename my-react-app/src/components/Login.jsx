@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+// Login.jsx
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Login = () => {
+  const { setCurrentUser, signup, login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [currentView, setCurrentView] = useState('landing');
   const [formData, setFormData] = useState({
     email: '',
@@ -11,59 +16,44 @@ const Login = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
-  const { login, signup } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  
-  const from = location.state?.from?.pathname || '/home';
 
   const lyricIconUrl = "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/lyricicon.png";
 
+  const from = location.state?.from?.pathname || '/home';
+
+  // เช็คว่ามี user จาก OAuth redirect มาหรือไม่
+    useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const userParam = params.get('user');
+    if (userParam) {
+      try {
+        const parsedUser = JSON.parse(decodeURIComponent(userParam));
+        console.log("OAuth User Received:", parsedUser);
+        setCurrentUser(parsedUser);
+        localStorage.setItem('user', JSON.stringify(parsedUser));
+        navigate('/home', { replace: true });
+      } catch (err) {
+        console.error('Failed to parse OAuth user:', err);
+      }
+    }
+  }, [location.search, navigate, setCurrentUser]);
+
   const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
     if (error) setError('');
   };
 
-  // Email validation function
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleSignUp = async () => {
-    // Comprehensive validation for signup
-    if (!formData.email.trim()) {
-      setError('Email is required');
-      return;
-    }
-
-    if (!isValidEmail(formData.email)) {
-      setError('Please enter a valid email address');
-      return;
-    }
-
-    if (!formData.password) {
-      setError('Password is required');
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters long');
-      return;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match!');
-      return;
-    }
+    if (!formData.email.trim()) { setError('Email is required'); return; }
+    if (!isValidEmail(formData.email)) { setError('Please enter a valid email address'); return; }
+    if (!formData.password) { setError('Password is required'); return; }
+    if (formData.password.length < 6) { setError('Password must be at least 6 characters long'); return; }
+    if (formData.password !== formData.confirmPassword) { setError('Passwords do not match!'); return; }
 
     setLoading(true);
     setError('');
-    
     try {
       await signup(formData.email, formData.password);
       navigate(from, { replace: true });
@@ -75,30 +65,13 @@ const Login = () => {
   };
 
   const handleSignIn = async () => {
-    // Comprehensive validation for signin
-    if (!formData.email.trim()) {
-      setError('Email is required');
-      return;
-    }
-
-    if (!isValidEmail(formData.email)) {
-      setError('Please enter a valid email address');
-      return;
-    }
-
-    if (!formData.password) {
-      setError('Password is required');
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters long');
-      return;
-    }
+    if (!formData.email.trim()) { setError('Email is required'); return; }
+    if (!isValidEmail(formData.email)) { setError('Please enter a valid email address'); return; }
+    if (!formData.password) { setError('Password is required'); return; }
+    if (formData.password.length < 6) { setError('Password must be at least 6 characters long'); return; }
 
     setLoading(true);
     setError('');
-    
     try {
       await login(formData.email, formData.password);
       navigate(from, { replace: true });
@@ -110,30 +83,23 @@ const Login = () => {
   };
 
   const handleGoogleSignIn = () => {
-    console.log('Google sign in clicked');
-    setError('Google sign in not implemented yet');
+    window.location.href = 'http://localhost:5000/auth/google';
   };
 
-  // Check if form is valid for real-time button enabling
-  const isSignUpValid = () => {
-    return (
-      formData.email.trim() &&
-      isValidEmail(formData.email) &&
-      formData.password &&
-      formData.password.length >= 6 &&
-      formData.confirmPassword &&
-      formData.password === formData.confirmPassword
-    );
-  };
+  // เช็ค validity สำหรับ enable/disable button
+  const isSignUpValid = () =>
+    formData.email.trim() &&
+    isValidEmail(formData.email) &&
+    formData.password &&
+    formData.password.length >= 6 &&
+    formData.confirmPassword &&
+    formData.password === formData.confirmPassword;
 
-  const isSignInValid = () => {
-    return (
-      formData.email.trim() &&
-      isValidEmail(formData.email) &&
-      formData.password &&
-      formData.password.length >= 6
-    );
-  };
+  const isSignInValid = () =>
+    formData.email.trim() &&
+    isValidEmail(formData.email) &&
+    formData.password &&
+    formData.password.length >= 6;
 
   const styles = {
     pageContainer: {
