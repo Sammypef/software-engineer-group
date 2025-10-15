@@ -374,6 +374,7 @@ const Login = () => {
         disabled={loading}
         onMouseOver={(e) => !loading && (e.currentTarget.style.transform = 'scale(1.02)')}
         onMouseOut={(e) => !loading && (e.currentTarget.style.transform = 'scale(1)')}
+        type="submit" 
       >
         Sign Up
       </button>
@@ -574,4 +575,11 @@ const Login = () => {
   );
 }
 
+
 export default Login;
+
+
+//function to connect Backend and Frontend
+// const Sign_In = async() => {
+//     try {
+//         const response = await fetch('http://localhost:5000/login', {
