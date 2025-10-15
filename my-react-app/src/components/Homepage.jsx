@@ -1,17 +1,19 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Home, Book, Headphones, User, LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Homepage = () => {
   const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
 
-  const lyricIconUrl = "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/lyricicon.png";
+  const lyricIconUrl = "https://raw.githubusercontent.com/Sammypef/software-engineer-group/peen-atempt/lyricicon.png";
 
   const styles = {
     homepageContainer: {
       minHeight: '100vh',
       width: '100vw',
-      background: 'linear-gradient(135deg, #1e1b4b 0%, #581c87 50%, #1e1b4b 100%)',
+      background: 'linear-gradient(135deg, #6f0097ff 0%, #ba378dff 50%, #b4ae63ff 100%)',
       display: 'flex',
       flexDirection: 'column',
       overflowX: 'hidden',
@@ -101,7 +103,7 @@ const Homepage = () => {
       lineHeight: '1.5'
     },
     userWelcome: {
-      color: '#a78bfa',
+      color: '#fbcdffff',
       fontSize: 'clamp(14px, 3vw, 16px)',
       marginBottom: '8px'
     }
@@ -153,13 +155,14 @@ const Homepage = () => {
             <span>Music</span>
           </button>
           <button 
-            style={styles.navButton}
-            className="nav-button"
-            onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
-            onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-          >
-            <User size={18} />
-            <span>Profile</span>
+          style={styles.navButton}
+          className="nav-button"
+          onClick={() => navigate('/progression')} // 👈 this line makes it work
+          onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+          onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+>
+          <User size={18} />
+          <span>Profile</span>
           </button>
           <button 
             style={styles.navButton}
