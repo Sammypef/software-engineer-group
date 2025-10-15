@@ -1,44 +1,72 @@
-import { pool } from "../server/supabaseClient.js";
+import bcrypt from 'bcrypt';
 
-export const Register = async(req, res) => {
+const SALT_ROUNDS = 10;
+
+export const Register = (pool) => async (req, res) => {
     //Get info from frontend
     const {email, password} = req.body;
-    //run query
-    const AddO_user = await pool.query("INSERT INTO user VALUES ($1, $2) RETURNING *", [email, password]); // SQL query to insert user data into the database
-    //Return status and data
-    res.status(200).json(AddO_user.rows[0]); 
+    try {
+      // Check if user already exists
+      const existingUser = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+      if (existingUser.rows.length > 0) {
+        return res.status(409).json({ message: "User with this email already exists." });
+      }
+
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
+      // Insert new user with hashed password
+      const newUserResult = await pool.query("INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id, email, created_at", [email, hashedPassword]);
+      const newUser = newUserResult.rows[0];
+
+      // Return the new user (without the password)
+      res.status(201).json({ user: newUser });
+    } catch (error) {
+      res.status(500).json({ message: "Server error during registration.", error: error.message });
+    }
 }
 
 
-export const Login = async(req, res) => {
+export const Login = (pool) => async (req, res) => {
     //Get info from frontend
     const {email, password} = req.body;
     //run query
-    const Check_user = await pool.query("SELECT * FROM user WHERE email = $1 AND password = $2", [email, password]); // SQL query to check user credentials
-    //Return status and data
-    if(Check_user.rows.length > 0){
-        res.status(200).json(Check_user.rows[0]);
-    } else {
-        res.status(401).json({message: "Invalid email or password"});
+    try {
+      const userResult = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+      if (userResult.rows.length === 0) {
+        return res.status(401).json({ message: "Invalid email or password" });
+      }
+
+      const user = userResult.rows[0];
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (isMatch) {
+        const { password, ...userWithoutPassword } = user;
+        res.status(200).json({ user: userWithoutPassword });
+      } else {
+        res.status(401).json({ message: "Invalid email or password" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Server error during login.", error: error.message });
     }
 }
 
 //Validate structure 
 //UID,Code
 
-export const Validate_mail = async(req, res) => { // Don't use this function for now
+export const Validate_mail = (pool) => async(req, res) => { // Don't use this function for now
     //Get info from frontend 
     const {code} = req.body;
     const Check_code = await pool.query("SELECT * FROM Valdate WHERE code = $1", [code]);
     UID = Check_code.rows[0].uid;
     if(UID){
         const Delete_code = await pool.query("DELETE FROM Valdate WHERE code = $1", [code]);
-        const Update_Status = await pool.query("UPDATE user SET status = true WHERE uid = $1", [UID]);
+        const Update_Status = await pool.query("UPDATE users SET status = true WHERE uid = $1", [UID]);
         res.status(200).json({message: "Validation successful"});
     }
 }
 
-export const Song_Play = async (req, res) => {
+export const Song_Play = (pool) => async (req, res) => {
   try {
     const { id } = req.params;
 

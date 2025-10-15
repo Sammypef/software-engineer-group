@@ -12,12 +12,10 @@ npm install passport-google-oauth20
 
 npm i --save-dev nodemon
 npm i --save express express-session passport passport-google-oauth2
-npm start
-npm run start
-nodemon index.js
+
 npm install pg
 npm install @supabase/supabase-js
- 
+
 
 open new terminal
 
