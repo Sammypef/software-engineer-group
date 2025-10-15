@@ -1,63 +1,43 @@
 // src/contexts/AuthContext.jsx
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Create the context
 const AuthContext = createContext();
 
-// Create the provider component
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check for existing authentication on app start
-    const user = localStorage.getItem('user');
-    if (user) {
-      setCurrentUser(JSON.parse(user));
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
     }
-    setLoading(false);
   }, []);
 
-  const login = async (email, password) => {
-    // TODO: Replace with actual API call
-    const user = { email, name: email.split('@')[0] };
-    setCurrentUser(user);
-    localStorage.setItem('user', JSON.stringify(user));
-    return user;
+  // ✅ ฟังก์ชัน Login ผ่าน Google OAuth
+  const loginWithGoogle = () => {
+    window.location.href = 'http://localhost:5000/auth/google';
   };
 
-  const signup = async (email, password) => {
-    // TODO: Replace with actual API call
-    const user = { email, name: email.split('@')[0] };
-    setCurrentUser(user);
-    localStorage.setItem('user', JSON.stringify(user));
-    return user;
-  };
+  // ✅ ฟังก์ชัน Logout จริง (เรียก backend + ล้าง localStorage)
+  const logout = async () => {
+    try {
+      await fetch('http://localhost:5000/logout', {
+        method: 'GET',
+        credentials: 'include', // สำคัญ เพื่อส่ง session cookie ไปเคลียร์ฝั่ง server
+      });
+    } catch (err) {
+      console.error('Logout failed:', err);
+    }
 
-  const logout = () => {
-    setCurrentUser(null);
     localStorage.removeItem('user');
-  };
-
-  const value = {
-    currentUser,
-    login,
-    signup,
-    logout
+    setCurrentUser(null);
   };
 
   return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
+    <AuthContext.Provider value={{ currentUser, setCurrentUser, loginWithGoogle, logout }}>
+      {children}
     </AuthContext.Provider>
   );
 }
 
-// Custom hook for using the auth context
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-}
+export const useAuth = () => useContext(AuthContext);
