@@ -114,9 +114,9 @@ const Homepage = () => {
       {/* Navigation Bar */}
       <nav style={styles.navbar}>
         <div style={styles.navBrand}>
-          <img 
-            src={lyricIconUrl} 
-            alt="LyricLingo" 
+          <img
+            src={lyricIconUrl}
+            alt="LyricLingo"
             style={{ width: '28px', height: '28px', borderRadius: '6px' }}
           />
           <span>LyricLingo</span>
@@ -127,7 +127,7 @@ const Homepage = () => {
               Welcome, {currentUser.name}!
             </div>
           )}
-          <button 
+          <button
             style={styles.navButton}
             className="nav-button"
             onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
@@ -136,7 +136,7 @@ const Homepage = () => {
             <Home size={18} />
             <span>Home</span>
           </button>
-          <button 
+          <button
             style={styles.navButton}
             className="nav-button"
             onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
@@ -145,7 +145,7 @@ const Homepage = () => {
             <Book size={18} />
             <span>Lessons</span>
           </button>
-          <button 
+          <button
             style={styles.navButton}
             className="nav-button"
             onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
@@ -154,7 +154,7 @@ const Homepage = () => {
             <Headphones size={18} />
             <span>Music</span>
           </button>
-          <button 
+          <button
           style={styles.navButton}
           className="nav-button"
           onClick={() => navigate('/progression')} // 👈 this line makes it work
@@ -164,7 +164,7 @@ const Homepage = () => {
           <User size={18} />
           <span>Profile</span>
           </button>
-          <button 
+          <button
             style={styles.navButton}
             className="nav-button"
             onClick={logout}
