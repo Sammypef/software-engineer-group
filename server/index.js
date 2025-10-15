@@ -4,11 +4,8 @@ import session from 'express-session';
 import passport from 'passport';
 import cors from 'cors';
 import * as auth from '../server/auth.js';
-import dotenv from 'dotenv';
-import { Login } from '../server/function.js';
+import { Login, Register, Song_Play, Validate_mail } from '../server/function.js';
 import { pool } from './supabaseClient.js';
-// import {Test_Query, Validate_mail} from '../my-react-app/server/test.js';
-dotenv.config();
 
 
 const app = express();
@@ -16,7 +13,7 @@ const PORT = process.env.PORT;
 
 
 app.use(cors({
-  origin: `http://localhost:${PORT}`,
+  origin: 'http://localhost:5173', // Allow requests from the React frontend
   credentials: true,
 }));
 
@@ -29,33 +26,6 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-//Function
-const Check_Exist = async(email) => {
-  try {
-    const User = await pool.query("SELECT * FROM users WHERE name = $1 RETURNING name", [email]);
-    if(User.rows.length != 0){
-      return true;
-    }else{
-      return false
-    }
-  } catch (error) {
-    console.log(error.message);
-  }
-}
-
-const Create_Acc = async(email) => {
-  try {
-    const newUser = await pool.query("INSERT INTO users (email) VALUES $1 RETURNING *", [email]);
-    return newUser;
-  } catch (error) {
-    console.log(error.message);
-  }
-}
-
-
-
-
 
 // Route สำหรับเริ่ม Google OAuth
 app.get('/auth/google',
@@ -94,17 +64,17 @@ app.get('/logout', (req, res, next) => {
     if (err) { return next(err); }
     req.session.destroy(() => {
       res.clearCookie('connect.sid'); // เคลียร์ cookie session ด้วย
-      res.redirect(`http://localhost:${PORT}/login`);
+      res.redirect('http://localhost:5173/login');
     });
   });
 });
 
-// app.post('/Verify', Validate_mail); // Validate email
+// app.post('/Verify', Validate_mail(pool)); // Validate email
 
-app.post('/register', Register); // Register user
+app.post('/register', Register(pool)); // Register user
 
-app.post('/login', Login); // Login user
+app.post('/login', Login(pool)); // Login user
 
-// app.get('/song/:id/play', Song_Play); // Play song and increment play count
+// app.get('/song/:id/play', Song_Play(pool)); // Play song and increment play count
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

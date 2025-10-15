@@ -6,12 +6,53 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
 
+  // This function will be called when the component mounts to check for a stored user
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setCurrentUser(JSON.parse(storedUser));
     }
   }, []);
+
+  // The new signup function
+  const signup = async (email, password) => {
+    const response = await fetch('http://localhost:5000/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Registration failed');
+    }
+
+    // On successful registration, the backend should return the new user.
+    // We then set it as the current user and save it to localStorage.
+    setCurrentUser(data.user);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    return data;
+  };
+
+  // The new signin/login function
+  const login = async (email, password) => {
+    const response = await fetch('http://localhost:5000/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Login failed');
+    }
+
+    setCurrentUser(data.user);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    return data;
+  };
 
   // ✅ ฟังก์ชัน Login ผ่าน Google OAuth
   const loginWithGoogle = () => {
@@ -34,7 +75,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ currentUser, setCurrentUser, signup, login, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );

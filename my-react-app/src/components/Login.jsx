@@ -45,13 +45,18 @@ const Login = () => {
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const handleSignUp = async () => {
+  const validateSignUp = () => {
     if (!formData.email.trim()) { setError('Email is required'); return; }
     if (!isValidEmail(formData.email)) { setError('Please enter a valid email address'); return; }
     if (!formData.password) { setError('Password is required'); return; }
     if (formData.password.length < 6) { setError('Password must be at least 6 characters long'); return; }
     if (formData.password !== formData.confirmPassword) { setError('Passwords do not match!'); return; }
+    return true;
+  }
 
+  const handleSignUp = async () => {
+    if (!validateSignUp()) return;
+    
     setLoading(true);
     setError('');
     try {
