@@ -101,7 +101,7 @@ app.get('/logout', (req, res, next) => {
 
 // app.post('/Verify', Validate_mail); // Validate email
 
-// app.post('/register', Register); // Register user
+app.post('/register', Register); // Register user
 
 app.post('/login', Login); // Login user
 
