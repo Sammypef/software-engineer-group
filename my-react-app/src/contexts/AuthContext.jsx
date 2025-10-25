@@ -34,7 +34,8 @@ export function AuthProvider({ children }) {
       }
 
       if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
+        console.error('Registration Failed', response);
+        //throw new Error(data.message || 'Registration failed');
       }
 
       // On successful registration, the backend should return the new user.
