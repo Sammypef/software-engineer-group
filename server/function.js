@@ -6,6 +6,9 @@ export const Register = (pool) => async (req, res) => {
     //Get info from frontend
     const {email, password} = req.body;
     try {
+      if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required.' });
+      }
       // Check if user already exists
       const existingUser = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
       if (existingUser.rows.length > 0) {
@@ -22,6 +25,7 @@ export const Register = (pool) => async (req, res) => {
       // Return the new user (without the password)
       res.status(201).json({ user: newUser });
     } catch (error) {
+      console.error('Register error:', error);
       res.status(500).json({ message: "Server error during registration.", error: error.message });
     }
 }
@@ -41,12 +45,14 @@ export const Login = (pool) => async (req, res) => {
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (isMatch) {
-        const { password, ...userWithoutPassword } = user;
+        // Avoid redeclaring `password` (it was destructured from req.body above)
+        const { password: _hashedPassword, ...userWithoutPassword } = user;
         res.status(200).json({ user: userWithoutPassword });
       } else {
         res.status(401).json({ message: "Invalid email or password" });
       }
     } catch (error) {
+      console.error("Login error:", error);
       res.status(500).json({ message: "Server error during login.", error: error.message });
     }
 }
