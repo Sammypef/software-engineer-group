@@ -2,20 +2,21 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:5000/google/callback"
-}, (accessToken, refreshToken, profile, done) => {
-  // const User = {
-  //   'AccessToken': accessToken,
-  //   'RefreshToken': refreshToken,
-  //   'Profile': profile,
-  //   'acaccessToken':accessToken,
-  // };
-  return done(null, profile);
-  }
-));
+// Only configure Google OAuth strategy when env vars are provided.
+const googleClientID = process.env.GOOGLE_CLIENT_ID;
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+
+if (googleClientID && googleClientSecret) {
+  passport.use(new GoogleStrategy({
+    clientID: googleClientID,
+    clientSecret: googleClientSecret,
+    callbackURL: "http://localhost:5000/google/callback"
+  }, (accessToken, refreshToken, profile, done) => {
+    return done(null, profile);
+  }));
+} else {
+  console.warn('Google OAuth not configured: GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET is missing.');
+}
 
 
 passport.serializeUser((user, done) => {

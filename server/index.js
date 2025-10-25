@@ -3,13 +3,13 @@ import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import cors from 'cors';
-import * as auth from '../server/auth.js';
-import { Login, Register, Song_Play, Validate_mail } from '../server/function.js';
+import * as auth from './auth.js';
+import { Login, Register, Song_Play, Validate_mail } from './function.js';
 import { pool } from './supabaseClient.js';
 
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 
 app.use(cors({
@@ -78,3 +78,18 @@ app.post('/login', Login(pool)); // Login user
 // app.get('/song/:id/play', Song_Play(pool)); // Play song and increment play count
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Simple health endpoint to check server and DB connectivity
+app.get('/health', async (req, res) => {
+  try {
+    // Attempt a trivial DB query to verify connection
+    const result = await pool.query('SELECT 1');
+    if (result) {
+      return res.status(200).json({ status: 'ok', db: 'connected' });
+    }
+    return res.status(200).json({ status: 'ok', db: 'unknown' });
+  } catch (err) {
+    console.error('Health check DB error:', err);
+    return res.status(500).json({ status: 'ok', db: 'disconnected', error: err.message });
+  }
+});

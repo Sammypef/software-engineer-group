@@ -16,42 +16,69 @@ export function AuthProvider({ children }) {
 
   // The new signup function
   const signup = async (email, password) => {
-    const response = await fetch('http://localhost:5000/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await fetch('http://localhost:5000/register', {
+        method: 'POST',
+        credentials: 'include', // include cookies if server uses sessions
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await response.json();
+      // Some server errors may return non-JSON (or empty) bodies — handle gracefully
+      let data;
+      const text = await response.text();
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch (e) {
+        data = { message: text };
+      }
 
-    if (!response.ok) {
-      throw new Error(data.message || 'Registration failed');
+      if (!response.ok) {
+        console.error('Registration Failed', response);
+        //throw new Error(data.message || 'Registration failed');
+      }
+
+      // On successful registration, the backend should return the new user.
+      // We then set it as the current user and save it to localStorage.
+      setCurrentUser(data.user);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      return data;
+    } catch (err) {
+      console.error('Signup error:', err);
+      // Re-throw so callers (components) can react to the error
+      throw err;
     }
-
-    // On successful registration, the backend should return the new user.
-    // We then set it as the current user and save it to localStorage.
-    setCurrentUser(data.user);
-    localStorage.setItem('user', JSON.stringify(data.user));
-    return data;
   };
 
   // The new signin/login function
   const login = async (email, password) => {
-    const response = await fetch('http://localhost:5000/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        credentials: 'include', // include cookies for session auth
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await response.json();
+      let data;
+      const text = await response.text();
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch (e) {
+        data = { message: text };
+      }
 
-    if (!response.ok) {
-      throw new Error(data.message || 'Login failed');
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      setCurrentUser(data.user);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      return data;
+    } catch (err) {
+      console.error('Login error:', err);
+      throw err;
     }
-
-    setCurrentUser(data.user);
-    localStorage.setItem('user', JSON.stringify(data.user));
-    return data;
   };
 
   // ✅ ฟังก์ชัน Login ผ่าน Google OAuth
