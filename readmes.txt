@@ -2,8 +2,6 @@ as you know
 if you open it for first time go to bash
 (make sure you are in the correct folder)
 
-cd my-react-app
-
 npm install
 npm install lucide-react
 npm install express passport passport-google-oauth20 cookie-session dotenv cors
@@ -17,6 +15,8 @@ npm install pg
 npm install @supabase/supabase-js
 npm install bcrypt
 
+
+
 open new terminal
 
 cd my-react-app
@@ -27,4 +27,3 @@ open new terminal
  V
 cd server
 npm start
-
