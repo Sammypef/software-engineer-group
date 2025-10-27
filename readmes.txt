@@ -15,6 +15,8 @@ npm i --save express express-session passport passport-google-oauth2
 
 npm install pg
 npm install @supabase/supabase-js
+npm install bcrypt
+
 
 
 open new terminal
@@ -27,4 +29,6 @@ open new terminal
  V
 cd server
 npm start
+ 
+
 
