@@ -14,6 +14,7 @@
     "pg": "^8.16.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "nodemon": "^3.1.10"
   }
 }
