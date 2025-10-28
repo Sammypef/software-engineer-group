@@ -30,7 +30,7 @@ npm install bcrypt
 
 npm i -D @playwright/test
 npx playwright install
+npm install framer-motion
 
 cd my-react-app
 npm run dev
- 

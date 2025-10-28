@@ -6,16 +6,15 @@ import Homepage from './components/Homepage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Progression from './components/Profile.jsx';
 import Song from './components/Song.jsx';
+import Music from './components/Music.jsx';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-          {/* Login page */}
           <Route path="/login" element={<Login />} />
-
-          {/* Homepage */}
+          
           <Route 
             path="/home" 
             element={
@@ -25,7 +24,6 @@ function App() {
             } 
           />
 
-          {/* Profile / Progression */}
           <Route 
             path="/progression" 
             element={
@@ -35,7 +33,6 @@ function App() {
             } 
           />
 
-          {/* ✅ Song page route */}
           <Route 
             path="/song/yoasobi" 
             element={
@@ -45,7 +42,14 @@ function App() {
             } 
           />
 
-          {/* Default redirect */}
+          <Route 
+            path="/music" 
+            element=
+            {
+              <Music />
+            } 
+          />
+
           <Route path="/" element={<Navigate to="/home" replace />} />
         </Routes>
       </Router>
