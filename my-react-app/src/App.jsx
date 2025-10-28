@@ -44,9 +44,10 @@ function App() {
 
           <Route 
             path="/music" 
-            element=
-            {
-              <Music />
+            element={
+              <ProtectedRoute>
+                <Music />
+              </ProtectedRoute>
             } 
           />
 
