@@ -12,8 +12,8 @@ const Song = () => {
     title: "夜に駆ける (Yoru ni Kakeru)",
     artist: "YOASOBI",
     cover: "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/lyricicon.png",
-    audioSrc: "/songs/YOASOBI_-_(SkySound.cc).mp3",
-    lrcSrc: "/songs/YOASOBI - 夜に駆ける (Yoru ni kakeru) Racing into the night [English & Romaji].lrc",
+    audioSrc: "http://localhost:5000/upload/songs/YOASOBI_YoruNiKakeru.mp3",
+    lrcSrc: "http://localhost:5000/upload/lyrics/YOASOBI - 夜に駆ける (Yoru ni kakeru) Racing into the night [English & Romaji].lrc",
   };
 
   // 🧠 Parse LRC lyrics
