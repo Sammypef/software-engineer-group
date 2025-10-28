@@ -1,7 +1,7 @@
 // src/components/Progression.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, Book, Headphones, User, LogOut } from "lucide-react";
+import { Home, Book, Headphones, User, LogOut, Search, PlayCircle, Gamepad2 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
 const Progression = () => {
@@ -157,6 +157,9 @@ const Progression = () => {
           </button>
           <button style={styles.navButton}>
             <Book size={18} /> <span>Lessons</span>
+          </button>
+          <button style={styles.navButton} onClick={() => navigate("/game")}>
+            <Gamepad2 size={18} /> Game
           </button>
           <button style={styles.navButton}>
             <Headphones size={18} /> <span>Music</span>

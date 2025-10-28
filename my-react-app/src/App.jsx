@@ -8,6 +8,7 @@ import Progression from './components/Profile.jsx';
 import Song from './components/Song.jsx';
 import Music from './components/Music.jsx';
 import Lessons from './components/Lessons.jsx';
+import Game from './components/Game.jsx';
 
 function App() {
   return (
@@ -61,6 +62,8 @@ function App() {
             } 
           />
 
+          <Route path="/game" element={<Game />} />
+          
           <Route path="/" element={<Navigate to="/home" replace />} />
         </Routes>
       </Router>

@@ -2,7 +2,8 @@
 import React from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Home, Book, Headphones, User, LogOut, Search, PlayCircle } from "lucide-react";
+import { Home, Book, Headphones, User, LogOut, Search, PlayCircle, Gamepad2 } from "lucide-react";
+
 
 const Homepage = () => {
   const { currentUser, logout } = useAuth();
@@ -127,6 +128,9 @@ const Homepage = () => {
           </button>
           <button style={styles.navButton} onClick={() => navigate("/lessons")}>
             <Book size={18} /> Lessons 
+          </button>
+          <button style={styles.navButton} onClick={() => navigate("/game")}>
+            <Gamepad2 size={18} /> Game
           </button>
           <button style={styles.navButton} onClick={() => navigate("/music")}>
             <Headphones size={18} /> Music
