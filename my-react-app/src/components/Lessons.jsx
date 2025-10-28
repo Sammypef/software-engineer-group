@@ -1,7 +1,7 @@
 // src/components/Lessons.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, Book, Headphones, User, LogOut, Search, PlayCircle, Gamepad2, Music, Clock, Disc, Heart } from "lucide-react";
+import { Home, Book, Headphones, User, LogOut, Search, PlayCircle, Gamepad2, BookOpen, Music, ChevronRight } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Lessons() {
