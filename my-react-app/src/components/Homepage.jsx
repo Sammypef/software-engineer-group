@@ -128,7 +128,7 @@ const Homepage = () => {
           <button style={styles.navButton}>
             <Book size={18} /> Lessons
           </button>
-          <button style={styles.navButton}>
+          <button style={styles.navButton} onClick={() => navigate("/music")}>
             <Headphones size={18} /> Music
           </button>
           <button style={styles.navButton} onClick={() => navigate("/progression")}>
