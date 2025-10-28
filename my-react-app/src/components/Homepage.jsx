@@ -119,14 +119,14 @@ const Homepage = () => {
             alt="LyricLingo"
             style={{ width: "28px", height: "28px", borderRadius: "6px" }}
           />
-          <span>LyricLingo</span>
+          <span>LyricaLingo</span>
         </div>
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
           <button style={styles.navButton}>
             <Home size={18} /> Home
           </button>
-          <button style={styles.navButton}>
-            <Book size={18} /> Lessons
+          <button style={styles.navButton} onClick={() => navigate("/lessons")}>
+            <Book size={18} /> Lessons 
           </button>
           <button style={styles.navButton} onClick={() => navigate("/music")}>
             <Headphones size={18} /> Music

@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Progression from './components/Profile.jsx';
 import Song from './components/Song.jsx';
 import Music from './components/Music.jsx';
+import Lessons from './components/Lessons.jsx';
 
 function App() {
   return (
@@ -47,6 +48,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <Music />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/lessons" 
+            element={
+              <ProtectedRoute>
+                <Lessons />
               </ProtectedRoute>
             } 
           />
