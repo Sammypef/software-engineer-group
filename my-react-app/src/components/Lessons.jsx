@@ -1,5 +1,5 @@
 // src/components/Lessons.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Home, Book, Headphones, User, LogOut, ChevronRight, Music, BookOpen } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
@@ -308,7 +308,7 @@ export default function Lessons() {
 
         {/* Show song selection */}
         {!selectedSong && (
-          <div style={songsGrid}>
+          <div style={styles.songsGrid}>
             {songs.map((song) => (
               <div
                 key={song.id}
