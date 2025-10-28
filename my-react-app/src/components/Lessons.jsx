@@ -1,7 +1,7 @@
 // src/components/Lessons.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, Book, Headphones, User, LogOut, ChevronRight, Music, BookOpen } from "lucide-react";
+import { Home, Book, Headphones, User, LogOut, Search, PlayCircle, Gamepad2, Music, Clock, Disc, Heart } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Lessons() {
@@ -277,6 +277,9 @@ export default function Lessons() {
           </button>
           <button style={{...styles.navButton, background: "rgba(255, 255, 255, 0.2)"}}>
             <Book size={18} /> <span>Lessons</span>
+          </button>
+          <button style={styles.navButton} onClick={() => navigate("/game")}>
+            <Gamepad2 size={18} /> Game
           </button>
           <button style={styles.navButton} onClick={() => navigate("/music")}>
             <Headphones size={18} /> <span>Music</span>
