@@ -1,16 +1,30 @@
 // src/components/Homepage.jsx
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Home, Book, Headphones, User, LogOut, Search, PlayCircle, Gamepad2 } from "lucide-react";
-
+import { Home, Book, Headphones, User, LogOut, Search, PlayCircle, Gamepad2, X, HelpCircle } from "lucide-react";
 
 const Homepage = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
+  const [showGuide, setShowGuide] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const lyricIconUrl =
     "https://raw.githubusercontent.com/Sammypef/software-engineer-group/peen-atempt/lyricicon.png";
+  
+  // Fixed guide image URL - using raw.githubusercontent.com instead
+  const guideImageUrl =
+    "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/guide.png";
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/login");
+    } catch (error) {
+      console.error("Failed to log out:", error);
+    }
+  };
 
   const styles = {
     pageContainer: {
@@ -109,6 +123,108 @@ const Homepage = () => {
       border: "2px solid rgba(255,255,255,0.2)",
     },
     songText: { display: "flex", flexDirection: "column" },
+    // Guide button styles - MOVED TO BOTTOM RIGHT
+    guideButton: {
+      position: "fixed",
+      bottom: "20px",
+      right: "20px", // Changed from left to right
+      background: "rgba(255, 255, 255, 0.2)",
+      border: "1px solid rgba(255, 255, 255, 0.3)",
+      borderRadius: "50%",
+      width: "60px",
+      height: "60px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      color: "white",
+      backdropFilter: "blur(10px)",
+      transition: "all 0.3s ease",
+      zIndex: 100,
+    },
+    // Guide modal styles
+    guideModal: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      background: "rgba(0, 0, 0, 0.8)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 1000,
+      backdropFilter: "blur(5px)",
+    },
+    guideContent: {
+      position: "relative",
+      maxWidth: "90vw",
+      maxHeight: "90vh",
+      background: "white",
+      borderRadius: "12px",
+      overflow: "hidden",
+      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
+    },
+    guideImage: {
+      width: "100%",
+      height: "auto",
+      display: "block",
+    },
+    // Logout confirmation modal styles
+    logoutModal: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      background: "rgba(0, 0, 0, 0.6)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 1000,
+      backdropFilter: "blur(5px)",
+    },
+    logoutContent: {
+      background: "rgba(255, 255, 255, 0.15)",
+      backdropFilter: "blur(20px)",
+      border: "1px solid rgba(255, 255, 255, 0.2)",
+      borderRadius: "16px",
+      padding: "2rem",
+      width: "min(90vw, 400px)",
+      color: "white",
+      textAlign: "center",
+    },
+    logoutTitle: {
+      fontSize: "1.5rem",
+      fontWeight: "600",
+      marginBottom: "1rem",
+    },
+    logoutButtons: {
+      display: "flex",
+      gap: "1rem",
+      justifyContent: "center",
+      marginTop: "1.5rem",
+    },
+    confirmButton: {
+      padding: "12px 24px",
+      background: "rgba(255, 0, 0, 0.3)",
+      border: "1px solid rgba(255, 255, 255, 0.3)",
+      borderRadius: "8px",
+      color: "white",
+      cursor: "pointer",
+      fontWeight: "500",
+      transition: "all 0.2s ease",
+    },
+    cancelButton: {
+      padding: "12px 24px",
+      background: "rgba(255, 255, 255, 0.1)",
+      border: "1px solid rgba(255, 255, 255, 0.3)",
+      borderRadius: "8px",
+      color: "white",
+      cursor: "pointer",
+      fontWeight: "500",
+      transition: "all 0.2s ease",
+    },
   };
 
   return (
@@ -138,7 +254,10 @@ const Homepage = () => {
           <button style={styles.navButton} onClick={() => navigate("/progression")}>
             <User size={18} /> Profile
           </button>
-          <button style={styles.navButton} onClick={logout}>
+          <button 
+            style={styles.navButton} 
+            onClick={() => setShowLogoutConfirm(true)}
+          >
             <LogOut size={18} /> Logout
           </button>
         </div>
@@ -166,6 +285,63 @@ const Homepage = () => {
           </div>
         </div>
       </main>
+
+      {/* Guide Button - NOW IN BOTTOM RIGHT */}
+      <button 
+        style={styles.guideButton}
+        onClick={() => setShowGuide(true)}
+        title="Show Guide"
+      >
+        <HelpCircle size={28} />
+      </button>
+
+      {/* Guide Modal - X BUTTON REMOVED */}
+      {showGuide && (
+        <div style={styles.guideModal} onClick={() => setShowGuide(false)}>
+          <div style={styles.guideContent} onClick={(e) => e.stopPropagation()}>
+            <img 
+              src={guideImageUrl} 
+              alt="Website Guide" 
+              style={styles.guideImage}
+              onError={(e) => {
+                console.error("Failed to load guide image");
+                e.target.style.display = 'none';
+                // Fallback message if image fails to load
+                const fallbackDiv = document.createElement('div');
+                fallbackDiv.style.padding = '2rem';
+                fallbackDiv.style.color = 'black';
+                fallbackDiv.style.textAlign = 'center';
+                fallbackDiv.textContent = 'Guide image failed to load. Please check the URL.';
+                e.target.parentNode.appendChild(fallbackDiv);
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div style={styles.logoutModal} onClick={() => setShowLogoutConfirm(false)}>
+          <div style={styles.logoutContent} onClick={(e) => e.stopPropagation()}>
+            <div style={styles.logoutTitle}>Are you sure?</div>
+            <p>Do you really want to log out?</p>
+            <div style={styles.logoutButtons}>
+              <button 
+                style={styles.cancelButton}
+                onClick={() => setShowLogoutConfirm(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                style={styles.confirmButton}
+                onClick={handleLogout}
+              >
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
