@@ -1,1 +1,4 @@
-Hello, I am Peppy writing this. If you see this file in your VS Code, then everything you did is set up correctly!
+Greetings for the TA or Instructor
+Nonetheless, Welcome to Our Git REPO (not that party game on Steam)
+This Project is part of the CPE334 Subject: Software Engineering. To understand the Principles and techniques used to create functionally correct, easy-to-use, robust, reliable, and maintainable software systems. Phases of the software development lifecycle, focusing on practical approaches. Team-based collaborative term project that requires students to analyze a proposed software system and produce a set of development artifacts typical of a real-world software development project.
+In this case, we are doing webapp called "lyriclingo" which Let user learning multiples languages via songs with gamification (guess what it's referenced). 
