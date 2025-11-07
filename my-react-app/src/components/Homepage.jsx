@@ -264,27 +264,115 @@ const Homepage = () => {
       </nav>
 
       <main style={styles.mainContent}>
-        <div style={styles.card}>
-          <div style={styles.sectionTitle}>Recent Song &gt;</div>
-          <div
-            style={styles.songCard}
-            onClick={() => navigate("/song/yoasobi")}
-          >
-            <div style={styles.songInfo}>
-              <img
-                src={lyricIconUrl}
-                alt="YOASOBI"
-                style={styles.songImage}
-              />
-              <div style={styles.songText}>
-                <span style={{ fontWeight: "bold" }}>夜に駆ける (Yoru ni Kakeru)</span>
-                <span>by YOASOBI</span>
-              </div>
-            </div>
-            <PlayCircle size={36} color="#fbcdfd" />
-          </div>
+  {/* Recent Song Section */}
+  <div style={styles.card}>
+    <div style={styles.sectionTitle}>Recent Song &gt;</div>
+    <div
+      style={styles.songCard}
+      onClick={() => navigate("/song/yoasobi")}
+    >
+      <div style={styles.songInfo}>
+        <img
+          src={lyricIconUrl}
+          alt="YOASOBI"
+          style={styles.songImage}
+        />
+        <div style={styles.songText}>
+          <span style={{ fontWeight: "bold" }}>夜に駆ける (Yoru ni Kakeru)</span>
+          <span>by YOASOBI</span>
         </div>
-      </main>
+      </div>
+      <PlayCircle size={36} color="#fbcdfd" />
+    </div>
+  </div>
+
+  {/* 🆕 Recent Album Section */}
+  <div style={styles.card}>
+    <div style={styles.sectionTitle}>Recent Album &gt;</div>
+
+    {/* Example Album 1 */}
+    <div
+      style={styles.songCard}
+      onClick={() => navigate("/album/yoasobi")}
+    >
+      <div style={styles.songInfo}>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/en/2/27/The_Book_%28Yoasobi_album%29.jpg"
+          alt="YOASOBI - The Book"
+          style={styles.songImage}
+        />
+        <div style={styles.songText}>
+          <span style={{ fontWeight: "bold" }}>THE BOOK</span>
+          <span>YOASOBI • 2021</span>
+        </div>
+      </div>
+      <PlayCircle size={36} color="#fbcdfd" />
+    </div>
+
+    {/* Example Album 2 */}
+    <div
+      style={styles.songCard}
+      onClick={() => navigate("/album/taylor-swift")}
+    >
+      <div style={styles.songInfo}>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_Midnights.png"
+          alt="Taylor Swift - Midnights"
+          style={styles.songImage}
+        />
+        <div style={styles.songText}>
+          <span style={{ fontWeight: "bold" }}>Midnights</span>
+          <span>Taylor Swift • 2022</span>
+        </div>
+      </div>
+      <PlayCircle size={36} color="#fbcdfd" />
+    </div>
+  </div>
+
+  {/* 🆕 Trending Section */}
+  <div style={styles.card}>
+    <div style={styles.sectionTitle}>Trending Now 🔥</div>
+
+    {/* Example Trending Song 1 */}
+    <div
+      style={styles.songCard}
+      onClick={() => navigate("/song/newjeans")}
+    >
+      <div style={styles.songInfo}>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/en/8/8b/NewJeans_-_Super_Shy.png"
+          alt="NewJeans - Super Shy"
+          style={styles.songImage}
+        />
+        <div style={styles.songText}>
+          <span style={{ fontWeight: "bold" }}>Super Shy</span>
+          <span>NewJeans</span>
+        </div>
+      </div>
+      <PlayCircle size={36} color="#fbcdfd" />
+    </div>
+
+    {/* Example Trending Song 2 */}
+    <div
+      style={styles.songCard}
+      onClick={() => navigate("/song/ado")}
+    >
+      <div style={styles.songInfo}>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/en/b/bf/Ado_-_Show.png"
+          alt="Ado - Show"
+          style={styles.songImage}
+        />
+        <div style={styles.songText}>
+          <span style={{ fontWeight: "bold" }}>Show</span>
+          <span>Ado</span>
+        </div>
+      </div>
+      <PlayCircle size={36} color="#fbcdfd" />
+    </div>
+  </div>
+</main>
+
 
       {/* Guide Button - NOW IN BOTTOM RIGHT */}
       <button 
