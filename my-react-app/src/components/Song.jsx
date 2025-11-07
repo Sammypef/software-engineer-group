@@ -1,4 +1,3 @@
-// src/components/Song.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { Play, Pause, SkipBack, SkipForward, Repeat, Shuffle, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -13,13 +12,39 @@ const Song = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isShuffle, setIsShuffle] = useState(false);
   const [isLoop, setIsLoop] = useState(false);
+  const [selectedLine, setSelectedLine] = useState(null);
 
   const song = {
     title: "夜に駆ける (Yoru ni Kakeru)",
     artist: "YOASOBI",
     cover: "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/lyricicon.png",
     audioSrc: "http://localhost:5000/upload/songs/YOASOBI_YoruNiKakeru.mp3",
-    lrcSrc: "http://localhost:5000/upload/lyrics/YOASOBI - 夜に駆ける (Yoru ni kakeru) Racing into the night [English & Romaji].lrc",
+    lrcSrc:
+      "http://localhost:5000/upload/lyrics/YOASOBI - 夜に駆ける (Yoru ni kakeru) Racing into the night [English & Romaji].lrc",
+  };
+
+  // 🎵 Flexible annotation system - use partial text matching
+  // Just include a unique part of the lyric line you want to annotate
+  const annotations = {
+    "shizumu": "This lyric metaphorically describes melting into the night — a poetic image of fading or transformation.",
+    "yoru ni kakeru": "Means 'Racing into the Night' — symbolizes running toward an uncertain or emotional destiny.",
+    "sayonara": "A Japanese farewell meaning 'Goodbye', often expressing final separation.",
+    "racing into the night": "The English translation of the song title, representing escape and transformation.",
+    "goodbye": "A moment of farewell and finality in the narrative.",
+  };
+
+  // Helper function to find annotation for a lyric line
+  const getAnnotation = (lineText) => {
+    if (!lineText) return null;
+    const normalized = lineText.toLowerCase().trim();
+    
+    // Find if any annotation key matches part of this line
+    for (const [key, value] of Object.entries(annotations)) {
+      if (normalized.includes(key.toLowerCase())) {
+        return value;
+      }
+    }
+    return null;
   };
 
   // 🧠 Parse LRC lyrics
@@ -33,12 +58,24 @@ const Song = () => {
             const match = line.match(/\[(\d{2}):(\d{2}\.\d{2})\](.*)/);
             if (match) {
               const time = parseInt(match[1]) * 60 + parseFloat(match[2]);
-              return { time, text: match[3].trim() };
+              const text = match[3].trim();
+              return { time, text };
             }
             return null;
           })
-          .filter(Boolean);
+          .filter(Boolean)
+          .filter(line => line.text.length > 0); // Remove empty lines
+        
         setLyrics(parsed);
+        
+        // Debug: Show which lines have annotations
+        console.log("📝 Lyrics loaded:", parsed.length, "lines");
+        console.log("💬 Lines with annotations:", 
+          parsed.filter(l => getAnnotation(l.text)).map(l => l.text)
+        );
+      })
+      .catch(err => {
+        console.error("Error loading lyrics:", err);
       });
   }, []);
 
@@ -98,14 +135,24 @@ const Song = () => {
   };
 
   const formatTime = (time) => {
-    if (isNaN(time)) return '0:00';
+    if (isNaN(time)) return "0:00";
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  const goToHomepage = () => navigate('/');
-  const goToExercise = () => navigate('/exercise');
+  const goToHomepage = () => {
+    navigate("/");
+  };
+
+  const goToExercise = () => {
+    navigate("/exercise");
+  };
+
+  const handleLineClick = (lineText) => {
+    // Toggle selection
+    setSelectedLine(selectedLine === lineText ? null : lineText);
+  };
 
   const styles = {
     container: {
@@ -201,6 +248,9 @@ const Song = () => {
       opacity: 0.5,
       transition: "opacity 0.3s ease, transform 0.3s ease",
       marginBottom: "0.5rem",
+      cursor: "pointer",
+      padding: "0.3rem",
+      borderRadius: "4px",
     },
     activeLine: {
       opacity: 1,
@@ -208,18 +258,32 @@ const Song = () => {
       fontWeight: "bold",
       transform: "scale(1.05)",
     },
-    // 🆕 Exercise Button
+    lineWithAnnotation: {
+      borderBottom: "2px dotted rgba(255,255,255,0.4)",
+    },
+    annotationBox: {
+      background: "rgba(255,255,255,0.15)",
+      borderRadius: "8px",
+      padding: "0.5rem",
+      marginTop: "0.3rem",
+      fontSize: "0.9rem",
+      color: "#fff",
+      fontStyle: "italic",
+      backdropFilter: "blur(6px)",
+      transition: "all 0.3s ease",
+      textAlign: "left",
+    },
     exerciseButton: {
-      marginTop: "1.5rem",
-      background: "rgba(255, 255, 255, 0.2)",
-      border: "1px solid rgba(255, 255, 255, 0.3)",
+      marginTop: "2rem",
+      padding: "0.8rem 2rem",
+      borderRadius: "12px",
+      background: "rgba(255,255,255,0.2)",
+      border: "1px solid rgba(255,255,255,0.3)",
       color: "white",
-      padding: "0.75rem 2rem",
-      borderRadius: "24px",
       cursor: "pointer",
       fontSize: "1rem",
       fontWeight: "500",
-      backdropFilter: "blur(10px)",
+      backdropFilter: "blur(8px)",
       transition: "all 0.3s ease",
     },
   };
@@ -258,10 +322,7 @@ const Song = () => {
       <div style={styles.controls}>
         <Shuffle
           size={24}
-          style={{
-            ...styles.iconButton,
-            ...(isShuffle ? styles.activeButton : {}),
-          }}
+          style={{ ...styles.iconButton, ...(isShuffle ? styles.activeButton : {}) }}
           onClick={() => setIsShuffle(!isShuffle)}
         />
         <SkipBack size={24} style={styles.iconButton} onClick={skipBackward} />
@@ -273,33 +334,46 @@ const Song = () => {
         <SkipForward size={24} style={styles.iconButton} onClick={skipForward} />
         <Repeat
           size={24}
-          style={{
-            ...styles.iconButton,
-            ...(isLoop ? styles.activeButton : {}),
-          }}
+          style={{ ...styles.iconButton, ...(isLoop ? styles.activeButton : {}) }}
           onClick={() => setIsLoop(!isLoop)}
         />
       </div>
 
       <div style={styles.lyrics}>
-        {lyrics.map((line, i) => (
-          <div
-            key={i}
-            style={i === activeIndex ? { ...styles.line, ...styles.activeLine } : styles.line}
-          >
-            {line.text}
-          </div>
-        ))}
+        {lyrics.map((line, i) => {
+          const annotation = getAnnotation(line.text);
+          const isActive = i === activeIndex;
+          const isSelected = selectedLine === line.text;
+          const hasAnnotation = annotation !== null;
+          
+          return (
+            <div
+              key={i}
+              style={{
+                ...styles.line,
+                ...(isActive ? styles.activeLine : {}),
+                ...(hasAnnotation ? styles.lineWithAnnotation : {}),
+              }}
+              onClick={() => handleLineClick(line.text)}
+            >
+              {line.text}
+              {isSelected && annotation && (
+                <div style={styles.annotationBox}>
+                  💬 {annotation}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
-      {/* 🆕 Exercise Button */}
       <button
         style={styles.exerciseButton}
         onClick={goToExercise}
         onMouseEnter={(e) => (e.target.style.background = "rgba(255,255,255,0.3)")}
         onMouseLeave={(e) => (e.target.style.background = "rgba(255,255,255,0.2)")}
       >
-        🎯 Go to Exercise
+        Go to Exercise
       </button>
 
       <audio ref={audioRef} src={song.audioSrc} />
