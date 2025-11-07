@@ -9,6 +9,7 @@ import Song from './components/Song.jsx';
 import Music from './components/Music.jsx';
 import Lessons from './components/Lessons.jsx';
 import Game from './components/Game.jsx';
+import Exercise from "./components/Exercise";
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
           />
 
           <Route path="/game" element={<Game />} />
+          <Route path="/exercise" element={<Exercise />} />
           
           <Route path="/" element={<Navigate to="/home" replace />} />
         </Routes>

@@ -104,9 +104,8 @@ const Song = () => {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const goToHomepage = () => {
-    navigate('/');
-  };
+  const goToHomepage = () => navigate('/');
+  const goToExercise = () => navigate('/exercise');
 
   const styles = {
     container: {
@@ -209,6 +208,20 @@ const Song = () => {
       fontWeight: "bold",
       transform: "scale(1.05)",
     },
+    // 🆕 Exercise Button
+    exerciseButton: {
+      marginTop: "1.5rem",
+      background: "rgba(255, 255, 255, 0.2)",
+      border: "1px solid rgba(255, 255, 255, 0.3)",
+      color: "white",
+      padding: "0.75rem 2rem",
+      borderRadius: "24px",
+      cursor: "pointer",
+      fontSize: "1rem",
+      fontWeight: "500",
+      backdropFilter: "blur(10px)",
+      transition: "all 0.3s ease",
+    },
   };
 
   const activeIndex = lyrics.findIndex(
@@ -219,11 +232,11 @@ const Song = () => {
 
   return (
     <div style={styles.container}>
-      <button 
+      <button
         style={styles.homeButton}
         onClick={goToHomepage}
-        onMouseEnter={(e) => e.target.style.background = "rgba(255,255,255,0.3)"}
-        onMouseLeave={(e) => e.target.style.background = "rgba(255,255,255,0.2)"}
+        onMouseEnter={(e) => (e.target.style.background = "rgba(255,255,255,0.3)")}
+        onMouseLeave={(e) => (e.target.style.background = "rgba(255,255,255,0.2)")}
       >
         <Home size={20} />
         <span>Home</span>
@@ -233,11 +246,7 @@ const Song = () => {
       <h1 style={styles.title}>{song.title}</h1>
       <p style={styles.artist}>By {song.artist}</p>
 
-      <div 
-        ref={progressRef}
-        style={styles.progressContainer}
-        onClick={handleProgressClick}
-      >
+      <div ref={progressRef} style={styles.progressContainer} onClick={handleProgressClick}>
         <div style={styles.progress}></div>
       </div>
 
@@ -247,56 +256,28 @@ const Song = () => {
       </div>
 
       <div style={styles.controls}>
-        <Shuffle 
-          size={24} 
+        <Shuffle
+          size={24}
           style={{
             ...styles.iconButton,
-            ...(isShuffle ? styles.activeButton : {})
+            ...(isShuffle ? styles.activeButton : {}),
           }}
           onClick={() => setIsShuffle(!isShuffle)}
-          onMouseEnter={(e) => e.target.style.transform = "scale(1.1)"}
-          onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
         />
-        <SkipBack 
-          size={24} 
-          style={styles.iconButton}
-          onClick={skipBackward}
-          onMouseEnter={(e) => e.target.style.transform = "scale(1.1)"}
-          onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
-        />
+        <SkipBack size={24} style={styles.iconButton} onClick={skipBackward} />
         {isPlaying ? (
-          <Pause 
-            size={32} 
-            onClick={togglePlay} 
-            style={{...styles.iconButton, opacity: 1}}
-            onMouseEnter={(e) => e.target.style.transform = "scale(1.1)"}
-            onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
-          />
+          <Pause size={32} onClick={togglePlay} style={{ ...styles.iconButton, opacity: 1 }} />
         ) : (
-          <Play 
-            size={32} 
-            onClick={togglePlay} 
-            style={{...styles.iconButton, opacity: 1}}
-            onMouseEnter={(e) => e.target.style.transform = "scale(1.1)"}
-            onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
-          />
+          <Play size={32} onClick={togglePlay} style={{ ...styles.iconButton, opacity: 1 }} />
         )}
-        <SkipForward 
-          size={24} 
-          style={styles.iconButton}
-          onClick={skipForward}
-          onMouseEnter={(e) => e.target.style.transform = "scale(1.1)"}
-          onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
-        />
-        <Repeat 
-          size={24} 
+        <SkipForward size={24} style={styles.iconButton} onClick={skipForward} />
+        <Repeat
+          size={24}
           style={{
             ...styles.iconButton,
-            ...(isLoop ? styles.activeButton : {})
+            ...(isLoop ? styles.activeButton : {}),
           }}
           onClick={() => setIsLoop(!isLoop)}
-          onMouseEnter={(e) => e.target.style.transform = "scale(1.1)"}
-          onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
         />
       </div>
 
@@ -304,16 +285,22 @@ const Song = () => {
         {lyrics.map((line, i) => (
           <div
             key={i}
-            style={
-              i === activeIndex
-                ? { ...styles.line, ...styles.activeLine }
-                : styles.line
-            }
+            style={i === activeIndex ? { ...styles.line, ...styles.activeLine } : styles.line}
           >
             {line.text}
           </div>
         ))}
       </div>
+
+      {/* 🆕 Exercise Button */}
+      <button
+        style={styles.exerciseButton}
+        onClick={goToExercise}
+        onMouseEnter={(e) => (e.target.style.background = "rgba(255,255,255,0.3)")}
+        onMouseLeave={(e) => (e.target.style.background = "rgba(255,255,255,0.2)")}
+      >
+        🎯 Go to Exercise
+      </button>
 
       <audio ref={audioRef} src={song.audioSrc} />
     </div>
