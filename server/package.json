@@ -3,7 +3,7 @@
     "nodemon": "^3.1.10"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.76.1",
+    "@supabase/supabase-js": "^2.80.0",
     "bcrypt": "^6.0.0",
     "cookie-session": "^2.1.1",
     "cors": "^2.8.5",
