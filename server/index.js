@@ -77,14 +77,6 @@ app.post('/login', Login(pool)); // Login user
 
 // app.get('/song/:id/play', Song_Play(pool)); // Play song and increment play count
 
-// Mock route สำหรับ Dev / E2E testing
-app.get('/auth/google/callback-mock', (req, res) => {
-  // set session / cookie แบบ dev
-  req.session.user = { email: 'testuser@example.com', name: 'Test User' };
-  // redirect ไปหน้า home ของ frontend
-  res.redirect('http://localhost:5173/home');
-});
-
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Simple health endpoint to check server and DB connectivity

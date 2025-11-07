@@ -12,7 +12,7 @@ const Progression = () => {
     username: currentUser?.name || "image/gif-host",
     avatar: currentUser?.picture || "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/lyricicon.png",
     level: 1,
-    exp: 0,
+    exp: 150,
     maxExp: 300,
     rank: "Beginner",
   };
@@ -148,7 +148,7 @@ const Progression = () => {
             alt="LyricLingo"
             style={{ width: "28px", height: "28px", borderRadius: "6px" }}
           />
-          <span>LyricaLingo</span>
+          <span>LyricLingo</span>
         </div>
 
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
