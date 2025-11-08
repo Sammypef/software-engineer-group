@@ -21,32 +21,32 @@ export default function Lessons() {
         { 
           id: 1, 
           title: "Lesson 1 - Opening Lines",
-          japanese: "[Your Japanese lyrics here]",
-          romaji: "[Your romaji here]",
-          translation: "[Your translation here]",
+          japanese: " 沈むように 溶けてゆくように 二人だけの空が広がる夜に",
+          romaji: " shizumu you ni tokete yuku you ni futari dake no sora ga hirogaru yoru ni",
+          translation: " Like sinking, like melting away On a night where only the two of us’s sky expands",
           trivia: [
-            "Add your trivia points here",
-            "Each lesson can have multiple trivia items"
+            "The verbs 沈む (shizumu, to sink) and 溶けてゆく (tokete yuku, to melt away) evoke a sense of fading, dissolving, or soft disappearance. From the start, the song sets a mood not of ascent or avoidance, but of surrender or merging",
+            "“二人だけの空” (sky only for the two of us) This line personalizes the night — their own private cosmos. It suggests intimacy but also separation from the rest of the world: in the darkness, only they exist. It amplifies the idea that whatever is happening is isolated"
           ]
         },
         { 
           id: 2, 
           title: "Lesson 2 - First Verse",
-          japanese: "[Your Japanese lyrics here]",
-          romaji: "[Your romaji here]",
-          translation: "[Your translation here]",
+          japanese: "「さよなら」だけだった その一言で全てが分かった 日が沈み出した空と君の姿 フェンス越しに重なっていた",
+          romaji: "'sayonara' dake datta sono hitokoto de subete ga wakatta hi ga shizumidashita sora to kimi no sugata fensugoshi ni kasanatte ita",
+          translation: " It was just “goodbye” With that single word, I understood everything Your figure and the sky where the sun began to set They overlapped beyond the fence",
           trivia: [
-            "More trivia about vocabulary or cultural context"
+            "“フェンス越しに重なっていた” “overlapping beyond the fence / across the fence” — evokes a barrier, separation, or distance (even if small). They might appear to align, but there is something between them, a partition. That barrier might be emotional as much as physical."
           ]
         },
         { 
           id: 3, 
-          title: "Lesson 3 - Chorus",
-          japanese: "[Your Japanese lyrics here]",
-          romaji: "[Your romaji here]",
-          translation: "[Your translation here]",
+          title: "Lesson 3 - First Verse",
+          japanese: " 初めて会った日から 僕の心の全てを奪った どこか儚い空気を纏う君は 寂しい目をしてたんだ",
+          romaji: " hajimete atta hi kara boku no kokoro no subete o ubatta dokoka hakanai kuuki o matou kimi wa samishii me o shiteta nda",
+          translation: "From the day we first met You stole my entire heart You — wrapped in a somehow ephemeral aura — Had those lonely eyes",
           trivia: [
-            "Explanation of grammar patterns or expressions"
+            "“どこか儚い空気を纏う君” — “you, wrapped in some ephemeral (儚い) air/atmosphere.” The word 儚い implies something delicate, fleeting, beautiful but unstable. It suggests that the person may be fragile, not entirely anchored, possibly living in the border between presence and absence."
           ]
         },
       ]
