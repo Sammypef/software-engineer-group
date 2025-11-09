@@ -1,5 +1,5 @@
 // src/components/Progression.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Home, Book, Headphones, User, LogOut, Search, PlayCircle, Gamepad2 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
@@ -8,16 +8,35 @@ const Progression = () => {
   const navigate = useNavigate();
   const { currentUser, logout } = useAuth();
 
-  const user = {
-    username: currentUser?.name || "image/gif-host",
-    avatar: currentUser?.picture || "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/lyricicon.png",
-    level: 1,
-    exp: 0,
-    maxExp: 300,
-    rank: "Beginner",
+  const [prog, setProg] = useState({ level: 1, exp: 0, expCap: 300, rank: 'Beginner' });
+
+  const getRank = (level) => {
+    if (level >= 10) return 'Master';
+    if (level >= 7) return 'Advanced';
+    if (level >= 4) return 'Intermediate';
+    return 'Beginner';
   };
 
-  const progressPercent = (user.exp / user.maxExp) * 100;
+  useEffect(() => {
+    const fetchProgression = async () => {
+      try {
+        const userId = currentUser?.user_id || currentUser?.id || currentUser?.uid;
+        if (!userId) return; // no signed-in user
+
+        const res = await fetch(`http://localhost:5000/api/progression/${userId}`);
+        if (!res.ok) throw new Error('Failed to fetch progression');
+        const data = await res.json();
+        const cap = 300 + (data.level - 1) * 100;
+        setProg({ level: data.level, exp: data.exp, expCap: cap, rank: getRank(data.level) });
+      } catch (err) {
+        console.error('Could not load progression:', err);
+      }
+    };
+
+    fetchProgression();
+  }, [currentUser]);
+
+  const progressPercent = (prog.exp / prog.expCap) * 100;
 
   const lyricIconUrl =
     "https://raw.githubusercontent.com/Sammypef/software-engineer-group/peen-atempt/lyricicon.png";
@@ -185,15 +204,19 @@ const Progression = () => {
       {/* Main content */}
       <main style={styles.mainContent}>
         <div style={styles.card}>
-          <img src={user.avatar} alt="User Avatar" style={styles.avatar} />
-          <h2 style={styles.username}>{user.username}</h2>
-          <p style={styles.level}>Level: {user.level}</p>
+          <img
+            src={currentUser?.picture || "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/lyricicon.png"}
+            alt="User Avatar"
+            style={styles.avatar}
+          />
+          <h2 style={styles.username}>{currentUser?.name || currentUser?.email || 'Guest'}</h2>
+          <p style={styles.level}>Level: {prog.level}</p>
 
           <div style={styles.progressBarContainer}>
             <div style={styles.progressBar}></div>
           </div>
           <p style={styles.expText}>
-            {user.rank} — {user.exp}/{user.maxExp} EXP
+            {prog.rank} — {prog.exp}/{prog.expCap} EXP
           </p>
 
           <button

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Home, RefreshCcw } from "lucide-react";
 
 export default function Exercise() {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   const pairs = [
     { jp: "Shizumu you ni tokete yuku you ni", en: "Melting into the night" },
@@ -42,10 +44,28 @@ export default function Exercise() {
   };
 
   useEffect(() => {
+    const onWin = async () => {
+      try {
+        // Award 200 EXP for completing the exercise
+        const userId = currentUser?.user_id || currentUser?.id || currentUser?.uid;
+        if (userId) {
+          await fetch(`http://localhost:5000/api/progression/${userId}/award`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ exp: 200 })
+          });
+        }
+      } catch (err) {
+        console.error('Failed to award exp:', err);
+      } finally {
+        setTimeout(() => {
+          setShowWinPopup(true);
+        }, 400);
+      }
+    };
+
     if (matched.length === pairs.length) {
-      setTimeout(() => {
-        setShowWinPopup(true);
-      }, 400);
+      onWin();
     }
   }, [matched]);
 
