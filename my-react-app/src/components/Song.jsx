@@ -14,14 +14,37 @@ const Song = () => {
   const [isLoop, setIsLoop] = useState(false);
   const [selectedLine, setSelectedLine] = useState(null);
 
-  const song = {
+  const [song, setSong] = useState({
     title: "夜に駆ける (Yoru ni Kakeru)",
     artist: "YOASOBI",
     cover: "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/lyricicon.png",
     audioSrc: "http://localhost:5000/upload/songs/YOASOBI_YoruNiKakeru.mp3",
     lrcSrc:
       "http://localhost:5000/upload/lyrics/YOASOBI - 夜に駆ける (Yoru ni kakeru) Racing into the night [English & Romaji].lrc",
-  };
+  });
+
+  // Try to fetch song metadata from server, but fall back to the hardcoded values above
+  useEffect(() => {
+    const fetchSong = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/songs/1");
+        if (!res.ok) throw new Error(`Failed to fetch song: ${res.status}`);
+        const data = await res.json();
+
+        setSong((prev) => ({
+          title: data.title || prev.title,
+          artist: data.artist || prev.artist,
+          cover: prev.cover,
+          audioSrc: data.song_path_file ? `http://localhost:5000/${data.song_path_file}` : prev.audioSrc,
+          lrcSrc: data.lyric_path_file ? `http://localhost:5000/${data.lyric_path_file}` : prev.lrcSrc,
+        }));
+      } catch (err) {
+        console.error("Song fetch failed, using fallback:", err);
+      }
+    };
+
+    fetchSong();
+  }, []);
 
   // 🎵 Flexible annotation system - use partial text matching
   // Just include a unique part of the lyric line you want to annotate
@@ -47,8 +70,10 @@ const Song = () => {
     return null;
   };
 
-  // 🧠 Parse LRC lyrics
+  // 🧠 Parse LRC lyrics (runs when the lyrics source changes)
   useEffect(() => {
+    if (!song.lrcSrc) return;
+
     fetch(song.lrcSrc)
       .then((res) => res.text())
       .then((text) => {
@@ -77,7 +102,7 @@ const Song = () => {
       .catch(err => {
         console.error("Error loading lyrics:", err);
       });
-  }, []);
+  }, [song.lrcSrc]);
 
   // 🎧 Update time and handle loop
   useEffect(() => {
