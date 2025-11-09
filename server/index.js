@@ -6,6 +6,7 @@ import cors from 'cors';
 import * as auth from './auth.js';
 import { Login, Register, Song_Play, Validate_mail } from './function.js';
 import songRoutes from './songRoutes.js';
+import progressionRoutes from './progressionRoutes.js';
 import { pool } from './supabaseClient.js';
 import path from 'path'; // 👈 เพิ่มอันนี้
 import { fileURLToPath } from 'url'; // 👈 และอันนี้
@@ -84,6 +85,8 @@ app.use('/Upload', cors(), express.static('Upload'));
 
 // Mount song API routes (keeps auth/login routes untouched)
 app.use('/api/songs', songRoutes);
+// Mount progression API routes
+app.use('/api/progression', progressionRoutes);
 
 // Mock route สำหรับ Dev / E2E testing
 app.get('/auth/google/callback-mock', (req, res) => {
