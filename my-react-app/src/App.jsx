@@ -38,7 +38,7 @@ function App() {
           />
 
           <Route 
-            path="/song/yoasobi" 
+            path="/song/:id" 
             element={
               <ProtectedRoute>
                 <Song />
