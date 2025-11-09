@@ -5,6 +5,7 @@ import passport from 'passport';
 import cors from 'cors';
 import * as auth from './auth.js';
 import { Login, Register, Song_Play, Validate_mail } from './function.js';
+import songRoutes from './songRoutes.js';
 import { pool } from './supabaseClient.js';
 import path from 'path'; // 👈 เพิ่มอันนี้
 import { fileURLToPath } from 'url'; // 👈 และอันนี้
@@ -80,6 +81,9 @@ app.post('/register', Register(pool)); // Register user
 app.post('/login', Login(pool)); // Login user
 
 app.use('/Upload', cors(), express.static('Upload'));
+
+// Mount song API routes (keeps auth/login routes untouched)
+app.use('/api/songs', songRoutes);
 
 // Mock route สำหรับ Dev / E2E testing
 app.get('/auth/google/callback-mock', (req, res) => {
