@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Home, Book, Headphones, User, LogOut, Search, PlayCircle, Gamepad2, X, HelpCircle } from "lucide-react";
+import { Home, Book, Headphones, User, LogOut, Search, PlayCircle, Gamepad2, X, HelpCircle, CreditCard } from "lucide-react";
 
 const Homepage = () => {
   const { currentUser, logout } = useAuth();
@@ -13,7 +13,6 @@ const Homepage = () => {
   const lyricIconUrl =
     "https://raw.githubusercontent.com/Sammypef/software-engineer-group/peen-atempt/lyricicon.png";
   
-  // Fixed guide image URL - using raw.githubusercontent.com instead
   const guideImageUrl =
     "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/guide.png";
 
@@ -123,11 +122,30 @@ const Homepage = () => {
       border: "2px solid rgba(255,255,255,0.2)",
     },
     songText: { display: "flex", flexDirection: "column" },
-    // Guide button styles - MOVED TO BOTTOM RIGHT
+    // Payment button - BOTTOM LEFT
+    paymentButton: {
+      position: "fixed",
+      bottom: "20px",
+      left: "20px",
+      background: "linear-gradient(135deg, #ffd700, #ffed4e)",
+      border: "2px solid rgba(255, 215, 0, 0.5)",
+      borderRadius: "50%",
+      width: "60px",
+      height: "60px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      color: "#6f0097ff",
+      boxShadow: "0 4px 20px rgba(255, 215, 0, 0.3)",
+      transition: "all 0.3s ease",
+      zIndex: 100,
+    },
+    // Guide button - BOTTOM RIGHT
     guideButton: {
       position: "fixed",
       bottom: "20px",
-      right: "20px", // Changed from left to right
+      right: "20px",
       background: "rgba(255, 255, 255, 0.2)",
       border: "1px solid rgba(255, 255, 255, 0.3)",
       borderRadius: "50%",
@@ -142,7 +160,6 @@ const Homepage = () => {
       transition: "all 0.3s ease",
       zIndex: 100,
     },
-    // Guide modal styles
     guideModal: {
       position: "fixed",
       top: 0,
@@ -170,7 +187,6 @@ const Homepage = () => {
       height: "auto",
       display: "block",
     },
-    // Logout confirmation modal styles
     logoutModal: {
       position: "fixed",
       top: 0,
@@ -264,117 +280,133 @@ const Homepage = () => {
       </nav>
 
       <main style={styles.mainContent}>
-  {/* Recent Song Section */}
-  <div style={styles.card}>
-    <div style={styles.sectionTitle}>Recent Song &gt;</div>
-    <div
-      style={styles.songCard}
-      onClick={() => navigate("/song/yoasobi")}
-    >
-      <div style={styles.songInfo}>
-        <img
-          src={lyricIconUrl}
-          alt="YOASOBI"
-          style={styles.songImage}
-        />
-        <div style={styles.songText}>
-          <span style={{ fontWeight: "bold" }}>夜に駆ける (Yoru ni Kakeru)</span>
-          <span>by YOASOBI</span>
+        {/* Recent Song Section */}
+        <div style={styles.card}>
+          <div style={styles.sectionTitle}>Recent Song &gt;</div>
+
+          <div style={styles.songCard} onClick={() => navigate("/song/yoasobi")}>
+            <div style={styles.songInfo}>
+              <img src={lyricIconUrl} alt="YOASOBI" style={styles.songImage} />
+              <div style={styles.songText}>
+                <span style={{ fontWeight: "bold" }}>夜に駆ける (Yoru ni Kakeru)</span>
+                <span>by YOASOBI</span>
+              </div>
+            </div>
+            <PlayCircle size={36} color="#fbcdfd" />
+          </div>
+
+          <div style={styles.songCard} onClick={() => navigate("/song/bluebird")}>
+            <div style={styles.songInfo}>
+              <img src={lyricIconUrl} alt="Ikimonogakari - Blue Bird" style={styles.songImage} />
+              <div style={styles.songText}>
+                <span style={{ fontWeight: "bold" }}>Blue Bird</span>
+                <span>Ikimonogakari</span>
+              </div>
+            </div>
+            <PlayCircle size={36} color="#fbcdfd" />
+          </div>
+
+          <div style={styles.songCard} onClick={() => navigate("/song/gurenge")}>
+            <div style={styles.songInfo}>
+              <img src={lyricIconUrl} alt="LiSA - Gurenge" style={styles.songImage} />
+              <div style={styles.songText}>
+                <span style={{ fontWeight: "bold" }}>Gurenge</span>
+                <span>LiSA</span>
+              </div>
+            </div>
+            <PlayCircle size={36} color="#fbcdfd" />
+          </div>
         </div>
-      </div>
-      <PlayCircle size={36} color="#fbcdfd" />
-    </div>
-  </div>
 
-  {/* 🆕 Recent Album Section */}
-  <div style={styles.card}>
-    <div style={styles.sectionTitle}>Recent Album &gt;</div>
+        {/* Recent Album Section */}
+        <div style={styles.card}>
+          <div style={styles.sectionTitle}>Recent Album &gt;</div>
 
-    {/* Example Album 1 */}
-    <div
-      style={styles.songCard}
-      onClick={() => navigate("/album/yoasobi")}
-    >
-      <div style={styles.songInfo}>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/en/2/27/The_Book_%28Yoasobi_album%29.jpg"
-          alt="YOASOBI - The Book"
-          style={styles.songImage}
-        />
-        <div style={styles.songText}>
-          <span style={{ fontWeight: "bold" }}>THE BOOK</span>
-          <span>YOASOBI • 2021</span>
+          <div style={styles.songCard} onClick={() => navigate("/album/yoasobi")}>
+            <div style={styles.songInfo}>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/en/2/27/The_Book_%28Yoasobi_album%29.jpg"
+                alt="YOASOBI - The Book"
+                style={styles.songImage}
+              />
+              <div style={styles.songText}>
+                <span style={{ fontWeight: "bold" }}>THE BOOK</span>
+                <span>YOASOBI • 2021</span>
+              </div>
+            </div>
+            <PlayCircle size={36} color="#fbcdfd" />
+          </div>
+
+          <div style={styles.songCard} onClick={() => navigate("/album/taylor-swift")}>
+            <div style={styles.songInfo}>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_Midnights.png"
+                alt="Taylor Swift - Midnights"
+                style={styles.songImage}
+              />
+              <div style={styles.songText}>
+                <span style={{ fontWeight: "bold" }}>Midnights</span>
+                <span>Taylor Swift • 2022</span>
+              </div>
+            </div>
+            <PlayCircle size={36} color="#fbcdfd" />
+          </div>
         </div>
-      </div>
-      <PlayCircle size={36} color="#fbcdfd" />
-    </div>
 
-    {/* Example Album 2 */}
-    <div
-      style={styles.songCard}
-      onClick={() => navigate("/album/taylor-swift")}
-    >
-      <div style={styles.songInfo}>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_Midnights.png"
-          alt="Taylor Swift - Midnights"
-          style={styles.songImage}
-        />
-        <div style={styles.songText}>
-          <span style={{ fontWeight: "bold" }}>Midnights</span>
-          <span>Taylor Swift • 2022</span>
+        {/* Trending Section */}
+        <div style={styles.card}>
+          <div style={styles.sectionTitle}>Trending Now 🔥</div>
+
+          <div style={styles.songCard} onClick={() => navigate("/song/newjeans")}>
+            <div style={styles.songInfo}>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/en/8/8b/NewJeans_-_Super_Shy.png"
+                alt="NewJeans - Super Shy"
+                style={styles.songImage}
+              />
+              <div style={styles.songText}>
+                <span style={{ fontWeight: "bold" }}>Super Shy</span>
+                <span>NewJeans</span>
+              </div>
+            </div>
+            <PlayCircle size={36} color="#fbcdfd" />
+          </div>
+
+          <div style={styles.songCard} onClick={() => navigate("/song/ado")}>
+            <div style={styles.songInfo}>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/en/b/bf/Ado_-_Show.png"
+                alt="Ado - Show"
+                style={styles.songImage}
+              />
+              <div style={styles.songText}>
+                <span style={{ fontWeight: "bold" }}>Show</span>
+                <span>Ado</span>
+              </div>
+            </div>
+            <PlayCircle size={36} color="#fbcdfd" />
+          </div>
         </div>
-      </div>
-      <PlayCircle size={36} color="#fbcdfd" />
-    </div>
-  </div>
+      </main>
 
-  {/* 🆕 Trending Section */}
-  <div style={styles.card}>
-    <div style={styles.sectionTitle}>Trending Now 🔥</div>
+      {/* Payment Button - BOTTOM LEFT */}
+      <button 
+        style={styles.paymentButton}
+        onClick={() => navigate("/payment")}
+        title="Upgrade to Premium"
+        onMouseEnter={(e) => {
+          e.target.style.transform = "scale(1.1)";
+          e.target.style.boxShadow = "0 6px 30px rgba(243, 238, 214, 0.97)";
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.transform = "scale(1)";
+          e.target.style.boxShadow = "0 4px 20px rgba(251, 191, 191, 0.83)";
+        }}
+      >
+        <CreditCard size={28} />
+      </button>
 
-    {/* Example Trending Song 1 */}
-    <div
-      style={styles.songCard}
-      onClick={() => navigate("/song/newjeans")}
-    >
-      <div style={styles.songInfo}>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/en/8/8b/NewJeans_-_Super_Shy.png"
-          alt="NewJeans - Super Shy"
-          style={styles.songImage}
-        />
-        <div style={styles.songText}>
-          <span style={{ fontWeight: "bold" }}>Super Shy</span>
-          <span>NewJeans</span>
-        </div>
-      </div>
-      <PlayCircle size={36} color="#fbcdfd" />
-    </div>
-
-    {/* Example Trending Song 2 */}
-    <div
-      style={styles.songCard}
-      onClick={() => navigate("/song/ado")}
-    >
-      <div style={styles.songInfo}>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/en/b/bf/Ado_-_Show.png"
-          alt="Ado - Show"
-          style={styles.songImage}
-        />
-        <div style={styles.songText}>
-          <span style={{ fontWeight: "bold" }}>Show</span>
-          <span>Ado</span>
-        </div>
-      </div>
-      <PlayCircle size={36} color="#fbcdfd" />
-    </div>
-  </div>
-</main>
-
-
-      {/* Guide Button - NOW IN BOTTOM RIGHT */}
+      {/* Guide Button - BOTTOM RIGHT */}
       <button 
         style={styles.guideButton}
         onClick={() => setShowGuide(true)}
@@ -383,7 +415,7 @@ const Homepage = () => {
         <HelpCircle size={28} />
       </button>
 
-      {/* Guide Modal - X BUTTON REMOVED */}
+      {/* Guide Modal */}
       {showGuide && (
         <div style={styles.guideModal} onClick={() => setShowGuide(false)}>
           <div style={styles.guideContent} onClick={(e) => e.stopPropagation()}>
@@ -394,7 +426,6 @@ const Homepage = () => {
               onError={(e) => {
                 console.error("Failed to load guide image");
                 e.target.style.display = 'none';
-                // Fallback message if image fails to load
                 const fallbackDiv = document.createElement('div');
                 fallbackDiv.style.padding = '2rem';
                 fallbackDiv.style.color = 'black';

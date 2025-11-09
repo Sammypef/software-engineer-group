@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Play, Pause, SkipBack, SkipForward, Repeat, Shuffle, Home } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Song = () => {
   const navigate = useNavigate();
+  const { id } = useParams(); // Get song ID from URL
   const audioRef = useRef(null);
   const progressRef = useRef(null);
   const [lyrics, setLyrics] = useState([]);
@@ -23,11 +24,13 @@ const Song = () => {
       "http://localhost:5000/upload/lyrics/YOASOBI - 夜に駆ける (Yoru ni kakeru) Racing into the night [English & Romaji].lrc",
   });
 
-  // Try to fetch song metadata from server, but fall back to the hardcoded values above
+  // Fetch song metadata from server based on URL parameter
   useEffect(() => {
     const fetchSong = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/songs/1");
+        // Use the ID from URL params, or default to 1
+        const songId = id || 1;
+        const res = await fetch(`http://localhost:5000/api/songs/${songId}`);
         if (!res.ok) throw new Error(`Failed to fetch song: ${res.status}`);
         const data = await res.json();
 
@@ -44,7 +47,7 @@ const Song = () => {
     };
 
     fetchSong();
-  }, []);
+  }, [id]); // Re-fetch when ID changes
 
   // 🎵 Flexible annotation system - use partial text matching
   // Just include a unique part of the lyric line you want to annotate
@@ -54,6 +57,10 @@ const Song = () => {
     "sayonara": "A Japanese farewell meaning 'Goodbye', often expressing final separation.",
     "racing into the night": "The English translation of the song title, representing escape and transformation.",
     "goodbye": "A moment of farewell and finality in the narrative.",
+    "gurenge": "Means 'Red Lotus' — symbolizes burning passion and determination.",
+    "tsuyoku": "Means 'strong' or 'strongly' — represents inner strength and resilience.",
+    "blue bird": "A symbol of hope and freedom, representing the pursuit of dreams.",
+    "habataitara": "Means 'if I spread my wings' — expressing the desire to fly toward one's goals.",
   };
 
   // Helper function to find annotation for a lyric line
