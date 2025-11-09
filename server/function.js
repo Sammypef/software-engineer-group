@@ -28,6 +28,12 @@ export const Register = (pool) => async (req, res) => {
       );
       let newUser = newUserResult.rows[0];
 
+      // Create initial progression record for the new user
+      await pool.query(
+        "INSERT INTO progression (user_id, level, exp) VALUES ($1, 1, 0)",
+        [newUser.user_id]
+      );
+
       // Remove password before sending to client if present
       if (newUser && newUser.password) {
         const { password: _pw, ...rest } = newUser;
