@@ -1,11 +1,11 @@
 // src/components/Game.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Home, Book, Headphones, User, LogOut, Search, PlayCircle, Gamepad2, BookOpen, Music, ChevronRight } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function LyricQuiz() {
-  const { logout } = useAuth();
+  const { logout, currentUser } = useAuth();
   const navigate = useNavigate();
 
   const quizData = [
@@ -30,6 +30,27 @@ export default function LyricQuiz() {
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
+
+  // Award EXP when quiz is completed
+  useEffect(() => {
+    const awardExp = async () => {
+      if (showResult) {
+        try {
+          const userId = currentUser?.user_id || currentUser?.id || currentUser?.uid;
+          if (userId) {
+            await fetch(`http://localhost:5000/api/progression/${userId}/award`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ exp: 50 })
+            });
+          }
+        } catch (err) {
+          console.error('Failed to award exp:', err);
+        }
+      }
+    };
+    awardExp();
+  }, [showResult, currentUser]);
 
   const handleSelect = (option) => {
   setSelected(option);
