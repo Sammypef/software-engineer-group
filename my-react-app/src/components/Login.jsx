@@ -370,7 +370,7 @@ const Login = () => {
         </div>
       </div>
       
-      <h1 style={styles.title}>LyricaLingo</h1>
+      <h1 style={styles.title}>LyricLingo</h1>
       <p style={styles.subtitle}>Learning new languages through music!</p>
 
       <button

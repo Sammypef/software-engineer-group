@@ -26,88 +26,97 @@ const Homepage = () => {
   };
 
   const styles = {
-    pageContainer: {
-      minHeight: "100vh",
-      width: "100vw",
-      background:
-        "linear-gradient(135deg, #6f0097ff 0%, #ba378dff 50%, #b4ae63ff 100%)",
-      display: "flex",
-      flexDirection: "column",
-      overflowX: "hidden",
-      boxSizing: "border-box",
-      fontFamily: "Poppins, sans-serif",
-      color: "white",
+    homepageContainer: {
+      minHeight: '100vh',
+      width: '100vw',
+      background: 'linear-gradient(135deg, #6f0097ff 0%, #ba378dff 50%, #b4ae63ff 100%)',
+      display: 'flex',
+      flexDirection: 'column',
+      overflowX: 'hidden',
+      boxSizing: 'border-box'
     },
     navbar: {
-      background: "rgba(255, 255, 255, 0.1)",
-      backdropFilter: "blur(20px)",
-      borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
-      padding: "clamp(12px, 3vw, 20px) clamp(4%, 5vw, 8%)",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      flexWrap: "wrap",
-      gap: "clamp(8px, 2vw, 16px)",
-      width: "100%",
-      boxSizing: "border-box",
+      background: 'rgba(255, 255, 255, 0.1)',
+      backdropFilter: 'blur(20px)',
+      borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+      padding: 'clamp(12px, 3vw, 20px) clamp(4%, 5vw, 8%)',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
+      boxSizing: 'border-box',
+      flexWrap: 'wrap',
+      gap: 'clamp(8px, 2vw, 16px)'
     },
     navBrand: {
-      display: "flex",
-      alignItems: "center",
-      gap: "clamp(8px, 2vw, 12px)",
-      color: "white",
-      fontSize: "clamp(16px, 4vw, 24px)",
-      fontWeight: "bold",
-      whiteSpace: "nowrap",
+      display: 'flex',
+      alignItems: 'center',
+      gap: 'clamp(8px, 2vw, 12px)',
+      color: 'white',
+      fontSize: 'clamp(16px, 4vw, 24px)',
+      fontWeight: 'bold',
+      whiteSpace: 'nowrap',
+      flexShrink: 0
+    },
+    navMenu: {
+      display: 'flex',
+      gap: 'clamp(6px, 1.5vw, 12px)',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      justifyContent: 'flex-end',
+      flex: 1
     },
     navButton: {
-      padding: "clamp(8px, 2vw, 12px) clamp(12px, 3vw, 20px)",
-      background: "rgba(255, 255, 255, 0.1)",
-      border: "1px solid rgba(255, 255, 255, 0.2)",
-      borderRadius: "clamp(6px, 1.5vw, 8px)",
-      color: "white",
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
-      gap: "clamp(6px, 1.5vw, 8px)",
-      fontSize: "clamp(12px, 2.5vw, 16px)",
-      fontWeight: "500",
-      transition: "all 0.2s ease",
+      padding: 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 20px)',
+      background: 'rgba(255, 255, 255, 0.1)',
+      border: '1px solid rgba(255, 255, 255, 0.2)',
+      borderRadius: 'clamp(6px, 1.5vw, 8px)',
+      color: 'white',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 'clamp(6px, 1.5vw, 8px)',
+      fontSize: 'clamp(12px, 2.5vw, 16px)',
+      fontWeight: '500',
+      transition: 'all 0.2s ease',
+      whiteSpace: 'nowrap',
+      flexShrink: 0,
+      boxSizing: 'border-box'
     },
     mainContent: {
       flex: 1,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      padding: "clamp(2rem, 8vw, 4rem)",
-      width: "100%",
-      boxSizing: "border-box",
+      padding: 'clamp(2rem, 8vw, 4rem) clamp(4%, 5vw, 8%)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      boxSizing: 'border-box',
+      minHeight: 'calc(100vh - clamp(80px, 15vw, 120px))'
     },
-    card: {
-      background: "rgba(255, 255, 255, 0.1)",
-      backdropFilter: "blur(20px)",
-      borderRadius: "clamp(16px, 4vw, 24px)",
-      padding: "clamp(1.5rem, 6vw, 3rem)",
-      border: "1px solid rgba(255, 255, 255, 0.2)",
-      width: "min(95vw, 800px)",
-      boxSizing: "border-box",
-      color: "white",
+    wipCard: {
+      background: 'rgba(255, 255, 255, 0.1)',
+      backdropFilter: 'blur(20px)',
+      borderRadius: 'clamp(16px, 4vw, 24px)',
+      padding: 'clamp(2rem, 8vw, 4rem) clamp(1.5rem, 6vw, 3rem)',
+      textAlign: 'center',
+      width: 'min(95vw, 800px)',
+      border: '1px solid rgba(255, 255, 255, 0.2)',
+      boxSizing: 'border-box',
+      margin: 'clamp(1rem, 4vw, 2rem)'
     },
-    sectionTitle: {
-      fontWeight: "600",
-      fontSize: "clamp(16px, 3vw, 20px)",
-      marginBottom: "1rem",
+    wipTitle: {
+      fontSize: 'clamp(24px, 6vw, 48px)',
+      fontWeight: 'bold',
+      color: 'white',
+      marginBottom: 'clamp(12px, 3vw, 24px)',
+      lineHeight: '1.2'
     },
-    songCard: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      background: "rgba(255, 255, 255, 0.08)",
-      borderRadius: "clamp(10px, 3vw, 16px)",
-      padding: "0.8rem 1rem",
-      marginBottom: "1.2rem",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
+    wipText: {
+      fontSize: 'clamp(14px, 3vw, 20px)',
+      color: '#d8b4fe',
+      marginBottom: 'clamp(6px, 2vw, 12px)',
+      lineHeight: '1.5'
     },
     songInfo: {
       display: "flex",
@@ -244,19 +253,31 @@ const Homepage = () => {
   };
 
   return (
-    <div style={styles.pageContainer}>
+    <div style={styles.homepageContainer}>
+      {/* Navigation Bar */}
       <nav style={styles.navbar}>
         <div style={styles.navBrand}>
           <img
             src={lyricIconUrl}
             alt="LyricLingo"
-            style={{ width: "28px", height: "28px", borderRadius: "6px" }}
+            style={{ width: '28px', height: '28px', borderRadius: '6px' }}
           />
           <span>LyricaLingo</span>
         </div>
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-          <button style={styles.navButton}>
-            <Home size={18} /> Home
+        <div style={styles.navMenu} className="nav-menu">
+          {currentUser && (
+            <div style={styles.userWelcome}>
+              Welcome, {currentUser.name}!
+            </div>
+          )}
+          <button
+            style={styles.navButton}
+            className="nav-button"
+            onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+            onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+          >
+            <Home size={18} />
+            <span>Home</span>
           </button>
           <button style={styles.navButton} onClick={() => navigate("/lessons")}>
             <Book size={18} /> Lessons 
@@ -267,8 +288,15 @@ const Homepage = () => {
           <button style={styles.navButton} onClick={() => navigate("/music")}>
             <Headphones size={18} /> Music
           </button>
-          <button style={styles.navButton} onClick={() => navigate("/progression")}>
-            <User size={18} /> Profile
+          <button
+          style={styles.navButton}
+          className="nav-button"
+          onClick={() => navigate('/progression')} // 👈 this line makes it work
+          onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+          onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+>
+          <User size={18} />
+          <span>Profile</span>
           </button>
           <button 
             style={styles.navButton} 
@@ -279,6 +307,7 @@ const Homepage = () => {
         </div>
       </nav>
 
+      {/* Main Content */}
       <main style={styles.mainContent}>
         {/* Recent Song Section */}
         <div style={styles.card}>

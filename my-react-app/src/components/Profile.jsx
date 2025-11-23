@@ -167,7 +167,7 @@ const Progression = () => {
             alt="LyricLingo"
             style={{ width: "28px", height: "28px", borderRadius: "6px" }}
           />
-          <span>LyricaLingo</span>
+          <span>LyricLingo</span>
         </div>
 
         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
