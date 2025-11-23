@@ -1,23 +1,22 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Check, Music, TrendingUp, Mic, BookOpen, Download, Headphones, Star } from "lucide-react";
+import { Check, Music, TrendingUp, Download, Star } from "lucide-react";
 
 const Payment = () => {
   const navigate = useNavigate();
 
+  const [showModal, setShowModal] = React.useState(false);
+
   const handleStartFree = () => {
-    // Navigate to main app or homepage
     navigate("/");
   };
 
   const handleSeePremium = () => {
-    // Scroll to premium section or show more details
     document.getElementById("premium-section")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleUpgradePremium = () => {
-    // Navigate to payment processing or show modal
-    alert("Premium payment integration coming soon! This would connect to your payment processor (Stripe, PayPal, etc.)");
+    setShowModal(true);
   };
 
   const styles = {
@@ -158,27 +157,16 @@ const Payment = () => {
       color: "white",
       marginTop: "1rem",
     },
-    footer: {
-      textAlign: "center",
-      maxWidth: "600px",
-      fontSize: "0.95rem",
-      opacity: 0.8,
-      lineHeight: "1.6",
-    },
-    comparisonSection: {
-      maxWidth: "800px",
-      width: "100%",
+    backButton: {
       marginTop: "3rem",
-      padding: "2rem",
-      background: "rgba(255, 255, 255, 0.05)",
-      borderRadius: "16px",
-      backdropFilter: "blur(10px)",
-    },
-    comparisonTitle: {
-      fontSize: "1.5rem",
-      fontWeight: "bold",
-      marginBottom: "1.5rem",
-      textAlign: "center",
+      padding: "0.8rem 1.2rem",
+      borderRadius: "12px",
+      border: "2px solid rgba(255, 255, 255, 0.3)",
+      background: "transparent",
+      color: "white",
+      fontSize: "1rem",
+      cursor: "pointer",
+      transition: "0.3s",
     },
   };
 
@@ -198,6 +186,7 @@ const Payment = () => {
 
       {/* Pricing Cards */}
       <div style={styles.pricingContainer}>
+
         {/* Free Plan */}
         <div style={styles.card}>
           <h2 style={styles.planName}>Start Free</h2>
@@ -226,14 +215,6 @@ const Payment = () => {
           <button
             style={{ ...styles.button, ...styles.freeButton }}
             onClick={handleStartFree}
-            onMouseEnter={(e) => {
-              e.target.style.background = "rgba(255, 255, 255, 0.3)";
-              e.target.style.transform = "translateY(-2px)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.background = "rgba(255, 255, 255, 0.2)";
-              e.target.style.transform = "translateY(0)";
-            }}
           >
             Start Learning Free
           </button>
@@ -241,12 +222,6 @@ const Payment = () => {
           <button
             style={{ ...styles.button, ...styles.secondaryButton }}
             onClick={handleSeePremium}
-            onMouseEnter={(e) => {
-              e.target.style.background = "rgba(255, 255, 255, 0.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.background = "transparent";
-            }}
           >
             See Premium Features
           </button>
@@ -293,58 +268,69 @@ const Payment = () => {
           <button
             style={{ ...styles.button, ...styles.premiumButton }}
             onClick={handleUpgradePremium}
-            onMouseEnter={(e) => {
-              e.target.style.transform = "translateY(-3px)";
-              e.target.style.boxShadow = "0 6px 30px rgba(255, 215, 0, 0.4)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = "translateY(0)";
-              e.target.style.boxShadow = "0 4px 20px rgba(255, 215, 0, 0.3)";
-            }}
           >
             Upgrade to Premium
           </button>
         </div>
       </div>
 
-      {/* Comparison Section */}
-      <div style={styles.comparisonSection}>
-        <h3 style={styles.comparisonTitle}>Why Choose Premium?</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "2rem" }}>
-          <div style={{ textAlign: "center" }}>
-            <Music size={40} style={{ marginBottom: "1rem", opacity: 0.9 }} />
-            <h4 style={{ marginBottom: "0.5rem", fontSize: "1.1rem" }}>500+ Songs</h4>
-            <p style={{ fontSize: "0.9rem", opacity: 0.8 }}>
-              Access the entire library across all languages and genres
+      {/* Back to Homepage Button */}
+      <button
+        style={styles.backButton}
+        onClick={() => navigate("/")}
+      >
+        ⬅ Back to Homepage
+      </button>
+
+      {/* Modal Popup */}
+      {showModal && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          background: "rgba(0,0,0,0.6)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999,
+        }}>
+          <div style={{
+            background: "white",
+            color: "black",
+            padding: "2rem",
+            borderRadius: "14px",
+            width: "90%",
+            maxWidth: "420px",
+            textAlign: "center",
+            boxShadow: "0 4px 30px rgba(0,0,0,0.3)",
+          }}>
+            <h2 style={{ marginBottom: "1rem", fontWeight: "bold" }}>
+              Premium Coming Soon
+            </h2>
+            <p style={{ marginBottom: "2rem", opacity: 0.7 }}>
+              Payment integration (Stripe/PayPal) is on the way!  
+              You'll be able to upgrade from here soon.
             </p>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <TrendingUp size={40} style={{ marginBottom: "1rem", opacity: 0.9 }} />
-            <h4 style={{ marginBottom: "0.5rem", fontSize: "1.1rem" }}>AI-Powered Learning</h4>
-            <p style={{ fontSize: "0.9rem", opacity: 0.8 }}>
-              Personalized recommendations based on your progress
-            </p>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <Download size={40} style={{ marginBottom: "1rem", opacity: 0.9 }} />
-            <h4 style={{ marginBottom: "0.5rem", fontSize: "1.1rem" }}>Learn Offline</h4>
-            <p style={{ fontSize: "0.9rem", opacity: 0.8 }}>
-              Download songs and practice anywhere, anytime
-            </p>
+
+            <button
+              style={{
+                padding: "0.8rem 1.5rem",
+                background: "#6f0097",
+                color: "white",
+                borderRadius: "10px",
+                border: "none",
+                cursor: "pointer",
+                fontWeight: 600,
+              }}
+              onClick={() => setShowModal(false)}
+            >
+              Close
+            </button>
           </div>
         </div>
-      </div>
-
-      {/* Footer */}
-      <div style={styles.footer}>
-        <p>
-          Join thousands of language learners who are making progress through music. 
-          Start free today, upgrade when you're ready.
-        </p>
-        <p style={{ marginTop: "1rem", fontSize: "0.85rem" }}>
-          No credit card required for free plan • Cancel premium anytime
-        </p>
-      </div>
+      )}
     </div>
   );
 };
