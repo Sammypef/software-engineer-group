@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Play, Pause, SkipBack, SkipForward, Repeat, Shuffle, Home } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Song = () => {
   const navigate = useNavigate();
@@ -57,6 +58,8 @@ const Song = () => {
     lrcSrc:
       "http://localhost:5000/upload/lyrics/YOASOBI - 夜に駆ける (Yoru ni kakeru) Racing into the night [English & Romaji].lrc",
   });
+  const { currentUser } = useAuth();
+  const [hasRecorded, setHasRecorded] = useState(false);
 
   // Fetch song metadata when URL ID changes
   useEffect(() => {
@@ -71,8 +74,10 @@ const Song = () => {
           title: data.title || prev.title,
           artist: data.artist || prev.artist,
           cover: prev.cover,
-          audioSrc: data.song_path_file ? `http://localhost:5000/${data.song_path_file}` : prev.audioSrc,
-          lrcSrc: data.lyric_path_file ? `http://localhost:5000/${data.lyric_path_file}` : prev.lrcSrc,
+          // support both possible DB column names
+          audioSrc: data.song_path_file ? `http://localhost:5000/${data.song_path_file}` : (data.song_file_path ? `http://localhost:5000/${data.song_file_path}` : prev.audioSrc),
+          lrcSrc: data.lyric_path_file ? `http://localhost:5000/${data.lyric_path_file}` : (data.lyric_file_path ? `http://localhost:5000/${data.lyric_file_path}` : prev.lrcSrc),
+          song_id: data.song_id || (isNaN(id) ? id : parseInt(id, 10)),
         }));
       } catch (err) {
         console.error("Song fetch failed, using fallback:", err);
@@ -136,6 +141,43 @@ const Song = () => {
     if (isPlaying) audioRef.current.pause();
     else audioRef.current.play();
     setIsPlaying(!isPlaying);
+  };
+
+  const recordPlay = async () => {
+    try {
+      if (hasRecorded) return; // avoid duplicate records
+      const userId = currentUser?.user_id || currentUser?.id || currentUser?.uid;
+      if (!userId) {
+        console.log('⚠️ Not logged in, skipping history record');
+        return; // not logged in
+      }
+
+      // Pass helpful fields to server so it can resolve song_id reliably
+      const relativePath = song.audioSrc ? song.audioSrc.replace(/^https?:\/\/[^/]+\//, '') : null;
+      const body = { user_id: userId };
+      if (id) body.slug = id; // send the URL param as slug (e.g., 'bluebird')
+      if (song.title) body.title = song.title;
+      if (relativePath) body.song_file_path = relativePath;
+
+      console.log('📝 Recording history:', body);
+      const res = await fetch('http://localhost:5000/api/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      const responseData = await res.json();
+      console.log('📝 History response:', res.status, responseData);
+
+      if (res.ok) {
+        console.log('✅ History recorded successfully');
+        setHasRecorded(true);
+      } else {
+        console.error('❌ Failed to record history:', responseData);
+      }
+    } catch (err) {
+      console.error('Failed to record history:', err);
+    }
   };
 
   const skipBackward = () => {
