@@ -5,12 +5,19 @@ import passport from 'passport';
 import cors from 'cors';
 import * as auth from './auth.js';
 import { Login, Register, Song_Play, Validate_mail } from './function.js';
+import songRoutes from './songRoutes.js';
+import progressionRoutes from './progressionRoutes.js';
+import historyRoutes from './historyRoutes.js';
 import { pool } from './supabaseClient.js';
+import path from 'path'; // 👈 เพิ่มอันนี้
+import { fileURLToPath } from 'url'; // 👈 และอันนี้
 
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(cors({
   origin: 'http://localhost:5173', // Allow requests from the React frontend
@@ -75,7 +82,14 @@ app.post('/register', Register(pool)); // Register user
 
 app.post('/login', Login(pool)); // Login user
 
-// app.get('/song/:id/play', Song_Play(pool)); // Play song and increment play count
+app.use('/Upload', cors(), express.static('Upload'));
+
+// Mount song API routes (keeps auth/login routes untouched)
+app.use('/api/songs', songRoutes);
+// Mount progression API routes
+app.use('/api/progression', progressionRoutes);
+// Mount history API routes
+app.use('/api/history', historyRoutes);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 

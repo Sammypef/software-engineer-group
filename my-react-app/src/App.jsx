@@ -6,6 +6,12 @@ import Login from './components/Login.jsx';
 import Homepage from './components/Homepage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Progression from './components/Profile.jsx';
+import Song from './components/Song.jsx';
+import Music from './components/Music.jsx';
+import Lessons from './components/Lessons.jsx';
+import Game from './components/Game.jsx';
+import Exercise from "./components/Exercise";
+import Payment from "./components/Payment.jsx";
 
 function App() {
   return (
@@ -14,7 +20,6 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           
-          {/* Homepage */}
           <Route 
             path="/home" 
             element={
@@ -24,7 +29,6 @@ function App() {
             } 
           />
 
-          {/*New Progression Page */}
           <Route 
             path="/progression" 
             element={
@@ -34,7 +38,35 @@ function App() {
             } 
           />
 
-          {/* Default redirect */}
+          <Route 
+            path="/song/:id" 
+            element={
+              <ProtectedRoute>
+                <Song />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/music" 
+            element={
+              <ProtectedRoute>
+                <Music />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/lessons" 
+            element={
+                <Lessons />
+            } 
+          />
+
+          <Route path="/game" element={<Game />} />
+          <Route path="/exercise" element={<Exercise />} />
+          <Route path="/payment" element={<Payment />} />
+          
           <Route path="/" element={<Navigate to="/home" replace />} />
         </Routes>
       </Router>
