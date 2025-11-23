@@ -7,6 +7,7 @@ import * as auth from './auth.js';
 import { Login, Register, Song_Play, Validate_mail } from './function.js';
 import songRoutes from './songRoutes.js';
 import progressionRoutes from './progressionRoutes.js';
+import historyRoutes from './historyRoutes.js';
 import { pool } from './supabaseClient.js';
 import path from 'path'; // 👈 เพิ่มอันนี้
 import { fileURLToPath } from 'url'; // 👈 และอันนี้
@@ -87,6 +88,8 @@ app.use('/Upload', cors(), express.static('Upload'));
 app.use('/api/songs', songRoutes);
 // Mount progression API routes
 app.use('/api/progression', progressionRoutes);
+// Mount history API routes
+app.use('/api/history', historyRoutes);
 
 // Mock route สำหรับ Dev / E2E testing
 app.get('/auth/google/callback-mock', (req, res) => {

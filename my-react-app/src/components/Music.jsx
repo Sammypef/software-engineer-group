@@ -12,12 +12,27 @@ export default function MusicPage() {
   const [liked, setLiked] = useState([]);
 
   useEffect(() => {
-    // placeholder demo data
-    setHistory([
-      { id: 1, title: "Yoru ni Kakeru", artist: "Yoasobi" },
-      { id: 2, title: "Blue Bird", artist: "Ikimono Gakari" },
-      { id: 3, title: "Gurenge", artist: "LiSA" },
-    ]);
+    const fetchHistory = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        const userId = user?.user_id || user?.id || user?.uid;
+        if (!userId) {
+          setHistory([]);
+          return;
+        }
+
+        const res = await fetch(`http://localhost:5000/api/history/${userId}`);
+        if (!res.ok) throw new Error('Failed to fetch history');
+        const data = await res.json();
+        // API returns array directly, not { rows: [] }
+        setHistory(Array.isArray(data) ? data : (data.rows || []));
+      } catch (err) {
+        console.error('Could not load history:', err);
+        setHistory([]);
+      }
+    };
+
+    fetchHistory();
     setPlaylists([
       { id: 1, name: "Study Beats" },
       { id: 2, name: "J-Pop Favs" },
@@ -209,22 +224,29 @@ export default function MusicPage() {
             <Clock size={24} />
             Browsing History
           </div>
-          {history.map((song) => (
-            <div
-              key={song.id}
-              style={styles.songItem}
-              onMouseOver={(e) => {
-                e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
-              }}
-            >
-              <Disc size={20} style={{ color: "#c084fc" }} />
-              <span style={styles.songTitle}>{song.title}</span>
-              <span style={styles.songArtist}>— {song.artist}</span>
-            </div>
-          ))}
+          {history.length === 0 ? (
+            <div style={{ color: 'rgba(255,255,255,0.7)' }}>No recently played songs.</div>
+          ) : (
+            history.map((song) => (
+              <div
+                key={song.history_id || song.id}
+                style={styles.songItem}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                }}
+              >
+                <Disc size={20} style={{ color: "#c084fc" }} />
+                <span style={styles.songTitle}>{song.title}</span>
+                <span style={styles.songArtist}>— {song.artist}</span>
+                <div style={{ marginLeft: 'auto', fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
+                  {song.listened_at ? new Date(song.listened_at).toLocaleString() : ''}
+                </div>
+              </div>
+            ))
+          )}
         </div>
 
         {/* Playlists */}
