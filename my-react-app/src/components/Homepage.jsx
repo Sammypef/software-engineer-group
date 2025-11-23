@@ -8,13 +8,20 @@ const Homepage = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [showGuide, setShowGuide] = useState(false);
+  const [currentGuideSlide, setCurrentGuideSlide] = useState(0);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const lyricIconUrl =
     "https://raw.githubusercontent.com/Sammypef/software-engineer-group/peen-atempt/lyricicon.png";
   
-  const guideImageUrl =
-    "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/guide.png";
+  const guideImages = [
+    "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/guide.png",
+    "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/guide2.png",
+    "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/guide3.png",
+    "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/guide4.png",
+    "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/guide5.png",
+    "https://raw.githubusercontent.com/Sammypef/software-engineer-group/image/gif-host/guide6.png",
+  ];
 
   const handleLogout = async () => {
     try {
@@ -190,11 +197,72 @@ const Homepage = () => {
       borderRadius: "12px",
       overflow: "hidden",
       boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
+      display: "flex",
+      flexDirection: "column",
     },
     guideImage: {
       width: "100%",
       height: "auto",
       display: "block",
+      maxHeight: "calc(90vh - 80px)",
+      objectFit: "contain",
+    },
+    guideNavigation: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "1rem",
+      background: "rgba(0, 0, 0, 0.05)",
+      borderTop: "1px solid rgba(0, 0, 0, 0.1)",
+    },
+    navButtonGuide: {
+      padding: "8px 16px",
+      background: "#6f0097ff",
+      border: "none",
+      borderRadius: "8px",
+      color: "white",
+      cursor: "pointer",
+      fontWeight: "500",
+      transition: "all 0.2s ease",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+    },
+    slideIndicator: {
+      display: "flex",
+      gap: "8px",
+      alignItems: "center",
+    },
+    dot: {
+      width: "8px",
+      height: "8px",
+      borderRadius: "50%",
+      background: "rgba(111, 0, 151, 0.3)",
+      transition: "all 0.2s ease",
+    },
+    dotActive: {
+      width: "8px",
+      height: "8px",
+      borderRadius: "50%",
+      background: "#6f0097ff",
+      transition: "all 0.2s ease",
+    },
+    closeButton: {
+      position: "absolute",
+      top: "10px",
+      right: "10px",
+      background: "rgba(0, 0, 0, 0.5)",
+      border: "none",
+      borderRadius: "50%",
+      width: "36px",
+      height: "36px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      color: "white",
+      zIndex: 10,
+      transition: "all 0.2s ease",
     },
     logoutModal: {
       position: "fixed",
@@ -438,31 +506,74 @@ const Homepage = () => {
       {/* Guide Button - BOTTOM RIGHT */}
       <button 
         style={styles.guideButton}
-        onClick={() => setShowGuide(true)}
+        onClick={() => {
+          setShowGuide(true);
+          setCurrentGuideSlide(0);
+        }}
         title="Show Guide"
       >
         <HelpCircle size={28} />
       </button>
 
-      {/* Guide Modal */}
+      {/* Guide Modal with Carousel */}
       {showGuide && (
         <div style={styles.guideModal} onClick={() => setShowGuide(false)}>
           <div style={styles.guideContent} onClick={(e) => e.stopPropagation()}>
             <img 
-              src={guideImageUrl} 
-              alt="Website Guide" 
+              src={guideImages[currentGuideSlide]} 
+              alt={`Guide ${currentGuideSlide + 1}`}
               style={styles.guideImage}
               onError={(e) => {
                 console.error("Failed to load guide image");
-                e.target.style.display = 'none';
-                const fallbackDiv = document.createElement('div');
-                fallbackDiv.style.padding = '2rem';
-                fallbackDiv.style.color = 'black';
-                fallbackDiv.style.textAlign = 'center';
-                fallbackDiv.textContent = 'Guide image failed to load. Please check the URL.';
-                e.target.parentNode.appendChild(fallbackDiv);
               }}
             />
+            
+            <div style={styles.guideNavigation}>
+              <button 
+                style={{
+                  ...styles.navButtonGuide,
+                  opacity: currentGuideSlide === 0 ? 0.5 : 1,
+                  cursor: currentGuideSlide === 0 ? "not-allowed" : "pointer"
+                }}
+                onClick={() => setCurrentGuideSlide(Math.max(0, currentGuideSlide - 1))}
+                disabled={currentGuideSlide === 0}
+                onMouseEnter={(e) => {
+                  if (currentGuideSlide !== 0) e.target.style.background = "#8a00bd";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = "#6f0097ff";
+                }}
+              >
+                Previous
+              </button>
+              
+              <div style={styles.slideIndicator}>
+                {guideImages.map((_, index) => (
+                  <div 
+                    key={index}
+                    style={index === currentGuideSlide ? styles.dotActive : styles.dot}
+                  />
+                ))}
+              </div>
+              
+              <button 
+                style={{
+                  ...styles.navButtonGuide,
+                  opacity: currentGuideSlide === guideImages.length - 1 ? 0.5 : 1,
+                  cursor: currentGuideSlide === guideImages.length - 1 ? "not-allowed" : "pointer"
+                }}
+                onClick={() => setCurrentGuideSlide(Math.min(guideImages.length - 1, currentGuideSlide + 1))}
+                disabled={currentGuideSlide === guideImages.length - 1}
+                onMouseEnter={(e) => {
+                  if (currentGuideSlide !== guideImages.length - 1) e.target.style.background = "#8a00bd";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = "#6f0097ff";
+                }}
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       )}
