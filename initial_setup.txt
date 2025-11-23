@@ -21,10 +21,3 @@ open new terminal
 
 cd my-react-app
 npm run dev
-
-open new terminal
- |
- V
-cd server
-npm start
-
