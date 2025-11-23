@@ -138,8 +138,13 @@ const Song = () => {
   }, [isLoop]);
 
   const togglePlay = () => {
-    if (isPlaying) audioRef.current.pause();
-    else audioRef.current.play();
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+      // record history once per song play session
+      recordPlay();
+    }
     setIsPlaying(!isPlaying);
   };
 
