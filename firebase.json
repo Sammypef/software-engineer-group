@@ -1,0 +1,47 @@
+{
+  "functions": {
+    "source": "functions"
+  },
+  "hosting": {
+    "public": "my-react-app/dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "function": "api"
+      },
+      {
+        "source": "/auth/**",
+        "function": "api"
+      },
+      {
+        "source": "/google/**",
+        "function": "api"
+      },
+      {
+        "source": "/logout",
+        "function": "api"
+      },
+      {
+        "source": "/login",
+        "function": "api"
+      },
+      {
+        "source": "/register",
+        "function": "api"
+      },
+      {
+        "source": "/upload/**",
+        "destination": "/upload/index.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
