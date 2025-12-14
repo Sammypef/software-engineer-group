@@ -86,7 +86,7 @@ npm install
 
 ```bash
 cd server
-npm run dev  # if using nodemon
+npm start
 ```
 
 The backend should start on `http://localhost:5000` (or the port specified in your .env file)
@@ -95,10 +95,10 @@ The backend should start on `http://localhost:5000` (or the port specified in yo
 
 ```bash
 cd my-react-app
-npm start
+npm run dev
 ```
 
-The React app should automatically open in your browser at `http://localhost:3000`
+The React app should automatically open in your browser at `http://localhost:5173`
 
 ### Option 2: Run from Root Directory (if configured)
 
@@ -168,7 +168,7 @@ software-engineer-group/
 │   ├── public/            # Static assets
 │   └── package.json       # Frontend dependencies
 ├── server/                # Backend Node.js server
-│   ├── server.js          # Main server file (check actual name)
+│   ├── index.js           # Main server file
 │   └── package.json       # Backend dependencies
 ├── package.json           # Root package.json
 ├── lyricicon.png          # Application icon
