@@ -1,5 +1,3 @@
-Greetings, TA's or Instructor
-
 # Welcome to Our Git REPO
 
 This Project is part of the CPE334 Subject: Software Engineering. To understand the Principles and techniques used to create functionally correct, easy-to-use, robust, reliable, and maintainable software systems. Phases of the software development lifecycle, focusing on practical approaches. Team-based collaborative term project that requires students to analyze a proposed software system and produce a set of development artifacts typical of a real-world software development project.
@@ -9,6 +7,9 @@ In this case, we are doing webapp called "lyriclingo" which Let user learning mu
 
 ## Project Overview
 LyricLingo is a web application developed for CPE334 Software Engineering that enables users to learn multiple languages through songs with gamification elements. This project demonstrates the principles and techniques used to create functionally correct, easy-to-use, robust, reliable, and maintainable software systems.
+
+**Important: Running on local DB without keys will not work, since we use Supabase**
+**Please check the DEPLOYED Firebase Build here: https://lyricallingo-d7be6.web.app/** *(Will become unavailable by Feb 2026)*
 
 ---
 
