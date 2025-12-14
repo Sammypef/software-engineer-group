@@ -27,6 +27,15 @@ Before running this application, ensure you have the following installed on your
 
 ---
 
+## ❗ Known Issues
+
+1. Google OAuth has been disabled with the current key in the firebase build
+2. Navigating to Learning and Music on the Profile page is impossible
+3. Several UI inconsistencies across pages
+4. Lyrics do not scroll along with music
+
+---
+
 ## 🚀 Installation & Setup
 
 ### Step 1: Clone the Repository
@@ -204,17 +213,6 @@ This project was developed by the CPE334 Software Engineering group SE08. Right 
 - The application uses React for the frontend with various libraries (check `my-react-app/package.json` for specifics)
 - The backend is built with Node.js/Express (verify in `server/package.json`)
 - Icon assets are available in the root directory (`lyricicon.png`)
-
----
-
-## 📧 Support
-
-If you encounter any issues during setup:
-
-1. Check the troubleshooting section above
-2. Review the console/terminal output for specific error messages
-3. Verify all prerequisites are correctly installed
-4. Contact the development team for assistance
 
 ---
 
