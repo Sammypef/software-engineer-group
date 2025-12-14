@@ -28,13 +28,13 @@ router.get('/:id', async (req, res) => {
                     title: '夜に駆ける (Yoru ni Kakeru)',
                     artist: 'YOASOBI',
                     song_path_file: 'upload/songs/YOASOBI_YoruNiKakeru.mp3',
-                    lyric_path_file: 'upload/lyrics/YOASOBI - 夜に駆ける (Yoru ni kakeru) Racing into the night [English & Romaji].lrc'
+                    lyric_path_file: 'upload/lyrics/YOASOBI - (Yoru ni kakeru) Racing into the night [English & Romaji].lrc'
                 },
                 'gurenge': {
                     title: 'Gurenge',
                     artist: 'LiSA',
                     song_path_file: 'upload/songs/LiSA_-_Gurenge_Demon_Slayer_Kimetsu_No_Yaiba_OST_-_Opening_(SkySound.cc).mp3',
-                    lyric_path_file: 'upload/lyrics/LiSA • Gurenge.lrc'
+                    lyric_path_file: 'upload/lyrics/LiSA - Gurenge.lrc'
                 }
             };
 
